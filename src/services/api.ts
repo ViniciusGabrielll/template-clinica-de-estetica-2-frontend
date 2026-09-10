@@ -380,7 +380,7 @@ export async function createAppointment(data: {
     start_time: string;
 }) {
     const response = await fetch(
-        "http://localhost:3000/api/appointments",
+        `${API_URL}/api/appointments`,
         {
             method: "POST",
             headers: {
@@ -419,7 +419,7 @@ export async function getAppointments(): Promise<Appointment[]> {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        "http://localhost:3000/api/appointments",
+        `${API_URL}/api/appointments`,
         {
             method: "GET",
             headers: {
@@ -446,7 +446,7 @@ export async function updateAppointmentStatus(
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `http://localhost:3000/api/appointments/${id}/status`,
+        `${API_URL}/api/appointments/${id}/status`,
         {
             method: "PATCH",
             headers: {
