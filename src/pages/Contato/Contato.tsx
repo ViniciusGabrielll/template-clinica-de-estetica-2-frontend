@@ -16,25 +16,16 @@ export default function Contato() {
     const [message, setMessage] = useState("");
 
     const [services, setServices] = useState<Service[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
 
     useEffect(() => {
         async function loadServices() {
             try {
-                setLoading(true);
-
                 const data = await getServices();
 
                 setServices(data);
             } catch (error) {
                 console.error(error);
 
-                setError(
-                    "Não foi possível carregar os serviços."
-                );
-            } finally {
-                setLoading(false);
             }
         }
 

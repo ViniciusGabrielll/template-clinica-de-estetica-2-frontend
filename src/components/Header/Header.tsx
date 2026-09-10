@@ -2,7 +2,7 @@ import { data } from "../../data/data";
 import styles from "./Header.module.css";
 
 import whatsappWhite from "../../assets/icons/whatsappWhite.svg";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 
 

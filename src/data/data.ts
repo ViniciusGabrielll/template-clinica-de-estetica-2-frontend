@@ -1,20 +1,6 @@
 import markBlack from "../../public/markBlack.svg";
 import aboutUsImg from "../assets/images/aboutUs.webp";
 
-import designDeSombrancelhas from "../assets/images/services/designDeSombracelhas.webp";
-import botox from "../assets/images/services/botox.webp";
-import depilacaoComCera from "../assets/images/services/depilacaocomcera.webp";
-import dermaplaning from "../assets/images/services/dermaplaning.webp";
-import epilacaoFacial from "../assets/images/services/epilacaofacial.webp";
-import extensaoDeCilios from "../assets/images/services/extensaodecilios.webp";
-import lashlifting from "../assets/images/services/lashlifting.webp";
-import limpezaDePele from "../assets/images/services/limpezadepele.webp";
-import massagemRelaxante from "../assets/images/services/massagemrelaxante.webp";
-import microagulhamento from "../assets/images/services/microagulhamento.webp";
-import micropigmentacao from "../assets/images/services/micropigmentacao.webp";
-import peelingQuimico from "../assets/images/services/peelingquimico.webp";
-import ventosaterapia from "../assets/images/services/ventosaterapia.webp";
-
 export const data = {
     name: "Lindha",
     city: "Curado",
