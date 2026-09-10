@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api";
+const API_URL = "https://template-clinica-de-estetica-backend-production.up.railway.app";
 
 export interface Service {
     id: number;

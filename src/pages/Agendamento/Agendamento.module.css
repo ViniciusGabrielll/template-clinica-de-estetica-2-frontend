@@ -46,6 +46,7 @@
 .serviceBtn.active *,
 .serviceBtn:hover * {
     color: var(--white-color);
+    transition: all 0.3s ease-in-out;
 }
 
 .data {
