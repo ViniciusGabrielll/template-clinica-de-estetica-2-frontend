@@ -1,0 +1,201 @@
+.container {
+    width: 100%;
+    padding: 32px;
+}
+
+.header {
+    margin-bottom: 32px;
+}
+
+.header h2 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: #777;
+}
+
+
+/* CONTEÚDO */
+
+.content {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+
+/* FORM */
+
+.form {
+    padding: 24px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+}
+
+.form h3 {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 18px;
+}
+
+.field label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    font: inherit;
+}
+
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.actions button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.actions button[type="submit"] {
+    background: #111;
+    color: white;
+}
+
+.actions button[type="button"] {
+    background: #eee;
+}
+
+.actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* LISTA */
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.list h3 {
+    margin: 0 0 8px;
+}
+
+
+/* DIA */
+
+.day {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+}
+
+.dayHeader {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.dayHeader h4 {
+    margin: 0;
+    font-size: 16px;
+}
+
+
+.closed {
+    padding: 16px 20px;
+    margin: 0;
+    color: #888;
+    font-size: 14px;
+}
+
+
+/* HORÁRIO */
+
+.hour {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 14px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.hour:last-child {
+    border-bottom: none;
+}
+
+.hour > span {
+    font-size: 15px;
+}
+
+
+.hourActions {
+    display: flex;
+    gap: 8px;
+}
+
+.hourActions button {
+    padding: 7px 11px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    background: white;
+    cursor: pointer;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 850px) {
+
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .container {
+        padding: 20px;
+    }
+
+    .hour {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .hourActions {
+        width: 100%;
+    }
+
+    .hourActions button {
+        flex: 1;
+    }
+
+}

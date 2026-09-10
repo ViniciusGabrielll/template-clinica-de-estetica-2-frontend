@@ -1,0 +1,188 @@
+:root {
+    --primary-color: #DBC1A8;
+    --light-primary-color: #F7E2CC;
+    --primary-text-color: #12110f;
+    --white-color: #FFFBF7;
+    --grey-color: #585858;
+
+    --default-padding: 100px;
+}
+
+::selection {
+    background: var(--primary-text-color);
+    color: var(--white-color);
+}
+
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--primary-text-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box;
+    color: var(--primary-text-color);
+    font-family: "Inter", sans-serif;
+    font-weight: 400;
+    margin: 0;
+}
+
+article {
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+h1,
+h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+h2 {
+    font-size: 4rem;
+}
+
+button {
+    font-size: 1rem;
+}
+
+strong {
+    font-weight: bold;
+}
+
+
+.darkBtn {
+    width: fit-content;
+    background-color: var(--primary-text-color);
+    color: var(--white-color);
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1rem;
+
+    cursor: pointer;
+    background-color: var(--primary-text-color);
+    color: var(--white-color);
+    transition: all 0.3s ease-in-out;
+}
+
+.lightBtn {
+
+    width: fit-content;
+    background: none;
+    border: 2px solid var(--primary-text-color);
+    color: var(--primary-text-color);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 1rem;
+
+    transition: all 0.3s ease-in-out;
+}
+
+.lightBtn:hover {
+    background-color: var(--primary-text-color);
+    color: var(--white-color);
+}
+
+
+@media (max-width: 1024px) {
+
+    :root {
+        --default-padding: 50px;
+    }
+
+    html {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 4.5rem;
+    }
+
+    h2 {
+        font-size: 3.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    :root {
+        --default-padding: 24px;
+    }
+
+    html {
+        font-size: 15px;
+    }
+
+    h1 {
+        font-size: 3.5rem;
+        line-height: 0.95;
+    }
+
+    h2 {
+        font-size: 2.7rem;
+        line-height: 1;
+    }
+
+    button {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    :root {
+        --default-padding: 16px;
+    }
+
+    html {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2.3rem;
+    }
+}

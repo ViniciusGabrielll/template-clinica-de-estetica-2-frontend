@@ -1,0 +1,167 @@
+.container {
+    width: 100%;
+}
+
+.header {
+    margin-bottom: 32px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: #777;
+}
+
+
+/* CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+.card {
+    padding: 22px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+}
+
+.card span {
+    display: block;
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.card strong {
+    display: block;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.card p {
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-size: 13px;
+    color: #888;
+}
+
+
+/* PRÓXIMOS AGENDAMENTOS */
+
+.upcoming {
+    margin-top: 32px;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    background: white;
+    overflow: hidden;
+}
+
+.sectionHeader {
+    padding: 20px 22px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.sectionHeader h2 {
+    margin: 0;
+    font-size: 19px;
+}
+
+.appointments {
+    display: flex;
+    flex-direction: column;
+}
+
+.appointment {
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 22px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.appointment:last-child {
+    border-bottom: none;
+}
+
+.time {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.time strong {
+    font-size: 18px;
+}
+
+.time span {
+    font-size: 13px;
+    color: #888;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info strong {
+    font-size: 15px;
+}
+
+.info span {
+    font-size: 13px;
+    color: #777;
+}
+
+.status {
+    font-size: 13px;
+    color: #666;
+}
+
+.empty {
+    padding: 24px;
+    margin: 0;
+    color: #777;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 1000px) {
+
+    .cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .container {
+        padding: 20px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .appointment {
+        grid-template-columns: 80px 1fr;
+    }
+
+    .status {
+        grid-column: 2;
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+}
