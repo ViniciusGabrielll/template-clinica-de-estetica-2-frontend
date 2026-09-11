@@ -1,15 +1,9 @@
 .container {
     width: 100%;
-    padding: 32px;
 }
 
 .header {
     margin-bottom: 32px;
-}
-
-.header h2 {
-    margin: 0;
-    font-size: 28px;
 }
 
 .header p {
@@ -17,8 +11,6 @@
     color: #777;
 }
 
-
-/* CONTEÚDO */
 
 .content {
     display: grid;
@@ -28,12 +20,10 @@
 }
 
 
-/* FORM */
 
 .form {
     padding: 24px;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
+    border: 2px solid var(--primary-text-color);
     background: white;
 }
 
@@ -61,7 +51,6 @@
     box-sizing: border-box;
     padding: 10px 12px;
     border: 1px solid #ddd;
-    border-radius: 8px;
     font: inherit;
 }
 
@@ -123,8 +112,7 @@
     align-items: center;
     gap: 20px;
     padding: 20px;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
+    border: 2px solid var(--primary-text-color);
     background: white;
 }
 

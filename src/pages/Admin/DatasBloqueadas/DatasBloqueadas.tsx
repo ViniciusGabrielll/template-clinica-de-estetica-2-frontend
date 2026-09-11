@@ -278,15 +278,7 @@ function DatasBloqueadas() {
 
                 </form>
 
-
-                {/* LISTA */}
-
                 <div className={styles.list}>
-
-                    <h3>
-                        Datas bloqueadas
-                    </h3>
-
 
                     {blockedDates.length === 0 ? (
 

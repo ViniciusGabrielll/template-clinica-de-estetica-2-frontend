@@ -1,4 +1,4 @@
-const API_URL = "https://template-clinica-de-estetica-backend-production.up.railway.app";
+const API_URL = "http://localhost:3000/api";
 
 export interface Service {
     id: number;
@@ -48,9 +48,11 @@ export interface BlockedDate {
     reason: string | null;
 }
 
+// ================================
+// DATAS BLOQUEADAS
+// ================================
 
 export async function getBlockedDates(): Promise<BlockedDate[]> {
-
     const response = await fetch(
         `${API_URL}/blocked-dates`
     );
@@ -67,12 +69,10 @@ export async function getBlockedDates(): Promise<BlockedDate[]> {
     return data;
 }
 
-
 export async function createBlockedDate(data: {
     date: string;
     reason: string;
 }) {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -99,11 +99,9 @@ export async function createBlockedDate(data: {
     return result;
 }
 
-
 export async function deleteBlockedDate(
     id: number
 ) {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -128,9 +126,11 @@ export async function deleteBlockedDate(
     return result;
 }
 
+// ================================
+// HORÁRIOS DE FUNCIONAMENTO
+// ================================
 
 export async function getBusinessHours(): Promise<BusinessHour[]> {
-
     const response = await fetch(
         `${API_URL}/business-hours`
     );
@@ -147,13 +147,11 @@ export async function getBusinessHours(): Promise<BusinessHour[]> {
     return data;
 }
 
-
 export async function createBusinessHour(data: {
     day_of_week: number;
     opening_time: string;
     closing_time: string;
 }) {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -180,7 +178,6 @@ export async function createBusinessHour(data: {
     return result;
 }
 
-
 export async function updateBusinessHour(
     id: number,
     data: {
@@ -189,7 +186,6 @@ export async function updateBusinessHour(
         closing_time: string;
     }
 ) {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -216,11 +212,9 @@ export async function updateBusinessHour(
     return result;
 }
 
-
 export async function deleteBusinessHour(
     id: number
 ) {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -244,6 +238,10 @@ export async function deleteBusinessHour(
 
     return result;
 }
+
+// ================================
+// SERVIÇOS
+// ================================
 
 export async function createService(data: {
     name: string;
@@ -269,13 +267,13 @@ export async function createService(data: {
 
     if (!response.ok) {
         throw new Error(
-            result.message || "Erro ao criar serviço."
+            result.message ||
+            "Erro ao criar serviço."
         );
     }
 
     return result;
 }
-
 
 export async function updateService(
     id: number,
@@ -304,15 +302,17 @@ export async function updateService(
 
     if (!response.ok) {
         throw new Error(
-            result.message || "Erro ao atualizar serviço."
+            result.message ||
+            "Erro ao atualizar serviço."
         );
     }
 
     return result;
 }
 
-
-export async function deleteService(id: number) {
+export async function deleteService(
+    id: number
+) {
     const token = localStorage.getItem("token");
 
     const response = await fetch(
@@ -329,7 +329,8 @@ export async function deleteService(id: number) {
 
     if (!response.ok) {
         throw new Error(
-            result.message || "Erro ao excluir serviço."
+            result.message ||
+            "Erro ao excluir serviço."
         );
     }
 
@@ -341,46 +342,62 @@ export async function getServices(): Promise<Service[]> {
         `${API_URL}/services`
     );
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error("Erro ao buscar serviços.");
+        throw new Error(
+            data.message ||
+            "Erro ao buscar serviços."
+        );
     }
 
-    return response.json();
+    return data;
 }
+
+// ================================
+// HORÁRIOS DISPONÍVEIS
+// ================================
 
 export async function getAvailableTimes(
     date: string,
     serviceIds: number[]
 ): Promise<string[]> {
-
     const params = new URLSearchParams();
 
     params.append("date", date);
 
     serviceIds.forEach((serviceId) => {
-        params.append("service_ids", serviceId.toString());
+        params.append(
+            "service_ids",
+            serviceId.toString()
+        );
     });
 
     const response = await fetch(
         `${API_URL}/appointments/available?${params.toString()}`
     );
 
+    const data = await response.json();
+
     if (!response.ok) {
-        throw new Error("Erro ao buscar horários.");
+        throw new Error(
+            data.message ||
+            "Erro ao buscar horários."
+        );
     }
 
-    return response.json();
+    return data;
 }
 
-export async function createAppointment(data: {
-    service_ids: number[];
-    customer_name: string;
-    customer_phone: string;
-    appointment_date: string;
-    start_time: string;
-}) {
+// ================================
+// AGENDAMENTOS
+// ================================
+
+export async function createAppointment(
+    data: CreateAppointmentData
+) {
     const response = await fetch(
-        `${API_URL}/api/appointments`,
+        `${API_URL}/appointments`,
         {
             method: "POST",
             headers: {
@@ -394,7 +411,8 @@ export async function createAppointment(data: {
 
     if (!response.ok) {
         throw new Error(
-            result.message || "Erro ao criar agendamento."
+            result.message ||
+            "Erro ao criar agendamento."
         );
     }
 
@@ -415,11 +433,10 @@ export type Appointment = {
 };
 
 export async function getAppointments(): Promise<Appointment[]> {
-
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `${API_URL}/api/appointments`,
+        `${API_URL}/appointments`,
         {
             method: "GET",
             headers: {
@@ -432,7 +449,8 @@ export async function getAppointments(): Promise<Appointment[]> {
 
     if (!response.ok) {
         throw new Error(
-            data.message || "Erro ao buscar agendamentos."
+            data.message ||
+            "Erro ao buscar agendamentos."
         );
     }
 
@@ -446,7 +464,7 @@ export async function updateAppointmentStatus(
     const token = localStorage.getItem("token");
 
     const response = await fetch(
-        `${API_URL}/api/appointments/${id}/status`,
+        `${API_URL}/appointments/${id}/status`,
         {
             method: "PATCH",
             headers: {
@@ -463,7 +481,8 @@ export async function updateAppointmentStatus(
 
     if (!response.ok) {
         throw new Error(
-            data.message || "Erro ao atualizar status."
+            data.message ||
+            "Erro ao atualizar status."
         );
     }
 

@@ -15,7 +15,6 @@ type AdminSection =
     | "blockedDates";
 
 function Admin() {
-
     const [section, setSection] =
         useState<AdminSection>("dashboard");
 
@@ -29,10 +28,16 @@ function Admin() {
         <div className={styles.container}>
 
             <aside className={styles.sidebar}>
+
                 <nav>
 
                     <button
                         type="button"
+                        className={
+                            section === "dashboard"
+                                ? styles.active
+                                : ""
+                        }
                         onClick={() =>
                             setSection("dashboard")
                         }
@@ -42,6 +47,11 @@ function Admin() {
 
                     <button
                         type="button"
+                        className={
+                            section === "appointments"
+                                ? styles.active
+                                : ""
+                        }
                         onClick={() =>
                             setSection("appointments")
                         }
@@ -51,6 +61,11 @@ function Admin() {
 
                     <button
                         type="button"
+                        className={
+                            section === "services"
+                                ? styles.active
+                                : ""
+                        }
                         onClick={() =>
                             setSection("services")
                         }
@@ -60,6 +75,11 @@ function Admin() {
 
                     <button
                         type="button"
+                        className={
+                            section === "businessHours"
+                                ? styles.active
+                                : ""
+                        }
                         onClick={() =>
                             setSection("businessHours")
                         }
@@ -69,6 +89,11 @@ function Admin() {
 
                     <button
                         type="button"
+                        className={
+                            section === "blockedDates"
+                                ? styles.active
+                                : ""
+                        }
                         onClick={() =>
                             setSection("blockedDates")
                         }

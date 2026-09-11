@@ -1,24 +1,16 @@
 .container {
     width: 100%;
-    padding: 32px;
 }
 
 .header {
     margin-bottom: 32px;
 }
 
-.header h2 {
-    margin: 0;
-    font-size: 28px;
-}
 
 .header p {
     margin-top: 8px;
     color: #777;
 }
-
-
-/* CONTEÚDO */
 
 .content {
     display: grid;
@@ -27,13 +19,9 @@
     align-items: start;
 }
 
-
-/* FORM */
-
 .form {
     padding: 24px;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
+    border: 2px solid var(--primary-text-color);
     background: white;
 }
 
@@ -61,7 +49,6 @@
     box-sizing: border-box;
     padding: 10px 12px;
     border: 1px solid #ddd;
-    border-radius: 8px;
     background: white;
     font: inherit;
 }
@@ -93,9 +80,6 @@
     cursor: not-allowed;
 }
 
-
-/* LISTA */
-
 .list {
     display: flex;
     flex-direction: column;
@@ -106,19 +90,15 @@
     margin: 0 0 8px;
 }
 
-
-/* DIA */
-
 .day {
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
+    border: 2px solid var(--primary-text-color);
     background: white;
     overflow: hidden;
 }
 
 .dayHeader {
     padding: 16px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid var(--primary-text-color);
 }
 
 .dayHeader h4 {
@@ -134,16 +114,13 @@
     font-size: 14px;
 }
 
-
-/* HORÁRIO */
-
 .hour {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
     padding: 14px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid var(--primary-text-color);
 }
 
 .hour:last-child {
@@ -167,9 +144,6 @@
     background: white;
     cursor: pointer;
 }
-
-
-/* RESPONSIVO */
 
 @media (max-width: 850px) {
 

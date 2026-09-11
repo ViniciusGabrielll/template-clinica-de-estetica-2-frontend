@@ -197,22 +197,6 @@ function Dashboard() {
                 <div className={styles.card}>
 
                     <span>
-                        Concluídos
-                    </span>
-
-                    <strong>
-                        {completed}
-                    </strong>
-
-                    <p>
-                        agendamentos
-                    </p>
-
-                </div>
-
-                <div className={styles.card}>
-
-                    <span>
                         Cancelados
                     </span>
 
@@ -232,9 +216,9 @@ function Dashboard() {
 
                 <div className={styles.sectionHeader}>
 
-                    <h2>
+                    <h3>
                         Próximos agendamentos
-                    </h2>
+                    </h3>
 
                 </div>
 

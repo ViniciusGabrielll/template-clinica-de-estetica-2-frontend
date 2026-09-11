@@ -391,14 +391,7 @@ function Servicos() {
 
                 </form>
 
-
-                {/* LISTA */}
-
                 <div className={styles.list}>
-
-                    <h3>
-                        Serviços cadastrados
-                    </h3>
 
 
                     {services.length === 0 ? (

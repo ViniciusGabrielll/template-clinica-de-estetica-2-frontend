@@ -314,8 +314,6 @@ function Horarios() {
 
             <div className={styles.content}>
 
-                {/* FORMULÁRIO */}
-
                 <form
                     className={styles.form}
                     onSubmit={handleSubmit}
@@ -425,13 +423,7 @@ function Horarios() {
                 </form>
 
 
-                {/* HORÁRIOS */}
-
                 <div className={styles.list}>
-
-                    <h3>
-                        Horários cadastrados
-                    </h3>
 
 
                     {daysOfWeek.map(
