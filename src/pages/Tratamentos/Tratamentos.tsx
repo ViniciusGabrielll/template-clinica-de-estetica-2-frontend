@@ -58,6 +58,8 @@ export default function Tratamentos() {
     return (
         <main className={styles.services} id="tratamentos">
 
+            <input type="text" placeholder="Pesquisar serviços..." />
+            <button>Filtrar</button>
             <div className={styles.serviceList}>
 
                 {visibleServices.map((service) => (
@@ -71,7 +73,10 @@ export default function Tratamentos() {
 
                         <p>{service.description}</p>
 
-                        <span>Agendar</span>
+                        <strong>    {Number(service.price).toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL"
+                        })}</strong>
                     </Link>
 
                 ))}

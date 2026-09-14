@@ -1,5 +1,6 @@
 import markBlack from "../../public/markBlack.svg";
-import aboutUsImg from "../assets/images/aboutUs.webp";
+import feedbacksImg from "../assets/images/feedbacksImg.webp";
+import heroImg from "../assets/images/heroImg.webp";
 
 export const data = {
     name: "Lindha",
@@ -23,24 +24,12 @@ export const data = {
     businessHours:
         "08:00 às 18:00",
 
-    aboutUsImg: aboutUsImg,
-
     textAboutUs:
         "A Intersense é uma clínica de estética e saúde integrativa localizada no Curado IV - Jaboatão dos Guararapes. O espaço oferece cuidados voltados à estética e ao bem-estar, buscando proporcionar um atendimento individualizado e acolhedor para seus pacientes.",
 
-    differential1Title: "Estética",
-    differential1Description: "e saúde integrativa",
-
-    differential2Title: "Atendimento",
-    differential2Description: "individualizado",
-
-    differential3Title: "Cuidado",
-    differential3Description: "com cada paciente",
-
-    differential4Title: "Intersense",
-    differential4Description: "Estética & Saúde Integrativa",
-
     markBlack: markBlack,
+    heroImg: heroImg,
+    feedbacksImg: feedbacksImg,
 
     feedbacks: [
         {

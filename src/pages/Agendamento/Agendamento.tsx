@@ -276,6 +276,7 @@ function Agendamento() {
             </div>
 
 
+
             <div
                 className={`
                     ${styles.data}
@@ -362,82 +363,80 @@ function Agendamento() {
                             </div>
                         )}
 
-
-                        {selectedTime && (
-
-                            <div className={styles.customerData}>
-
-                                <h3>
-                                    Seus dados
-                                </h3>
-
-                                <div className={styles.customerInputs}>
-                                    <input
-                                        type="text"
-                                        placeholder="Seu nome"
-                                        value={
-                                            customerName
-                                        }
-                                        onChange={(event) =>
-                                            setCustomerName(
-                                                event.target.value
-                                            )
-                                        }
-
-                                        className={styles.customerInput}
-                                    />
-
-                                    <input
-                                        type="tel"
-                                        placeholder="(00) 00000-0000"
-                                        value={customerPhone}
-                                        onChange={(event) => {
-                                            let value = event.target.value.replace(/\D/g, "");
-
-                                            if (value.length > 11) {
-                                                value = value.slice(0, 11);
-                                            }
-
-                                            if (value.length <= 10) {
-                                                value = value.replace(
-                                                    /^(\d{2})(\d{4})(\d{0,4}).*/,
-                                                    "($1) $2-$3"
-                                                );
-                                            } else {
-                                                value = value.replace(
-                                                    /^(\d{2})(\d{5})(\d{0,4}).*/,
-                                                    "($1) $2-$3"
-                                                );
-                                            }
-
-                                            setCustomerPhone(value);
-                                        }}
-                                        className={styles.customerInput}
-                                    />
-                                </div>
-
-                                <button
-                                    type="button"
-                                    onClick={
-                                        handleCreateAppointment
-                                    }
-                                    disabled={
-                                        creatingAppointment
-                                    }
-                                    className={styles.confirmBtn}
-                                >
-                                    {creatingAppointment
-                                        ? "Agendando..."
-                                        : "Confirmar agendamento"}
-                                </button>
-
-                            </div>
-
-                        )}
-
                     </>
                 )}
 
+            </div>
+
+            <div>
+                <div className={styles.customerData}>
+
+                    <h2>
+                        Informações
+                    </h2>
+
+                    <div className={styles.customerInputs}>
+                        <input
+                            type="text"
+                            placeholder="Seu nome"
+                            value={
+                                customerName
+                            }
+                            onChange={(event) =>
+                                setCustomerName(
+                                    event.target.value
+                                )
+                            }
+
+                            className={styles.customerInput}
+                        />
+
+                        <input
+                            type="tel"
+                            placeholder="(00) 00000-0000"
+                            value={customerPhone}
+                            onChange={(event) => {
+                                let value = event.target.value.replace(/\D/g, "");
+
+                                if (value.length > 11) {
+                                    value = value.slice(0, 11);
+                                }
+
+                                if (value.length <= 10) {
+                                    value = value.replace(
+                                        /^(\d{2})(\d{4})(\d{0,4}).*/,
+                                        "($1) $2-$3"
+                                    );
+                                } else {
+                                    value = value.replace(
+                                        /^(\d{2})(\d{5})(\d{0,4}).*/,
+                                        "($1) $2-$3"
+                                    );
+                                }
+
+                                setCustomerPhone(value);
+                            }}
+                            className={styles.customerInput}
+                        />
+                    </div>
+
+                    <button
+                        type="button"
+                        onClick={
+                            handleCreateAppointment
+                        }
+                        disabled={
+                            creatingAppointment
+                        }
+                        className={styles.confirmBtn}
+                    >
+                        {creatingAppointment
+                            ? "Agendando..."
+                            : "Confirmar agendamento"}
+                    </button>
+
+                </div>
+                <span>Suas informações estaram seguras, apenas serão usadas para confirmar agendamento.</span>
             </div>
 
         </main>

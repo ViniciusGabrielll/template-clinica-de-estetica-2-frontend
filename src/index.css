@@ -1,32 +1,35 @@
 :root {
-    --primary-color: #DBC1A8;
-    --light-primary-color: #F7E2CC;
-    --primary-text-color: #12110f;
-    --white-color: #FFFBF7;
+    --primary-color: #3F1859;
+    --light-primary-color: #C5A4DB;
+    --primary-text-color: #1B191A;
+    --white-color: #FFFFFF;
     --grey-color: #585858;
+    --light-grey-color: #F2F2F2;
 
     --default-padding: 100px;
+    --default-border-radius: 20px;
+    --header-height: 100px;
 }
 
 ::selection {
-    background: var(--primary-text-color);
+    background: var(--primary-color);
     color: var(--white-color);
 }
 
 ::-webkit-scrollbar {
-    width: 0.5rem;
+    width: 0.4rem;
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--primary-text-color);
+    background: var(--light-grey-color);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
+    background: var(--grey-color);
 }
 
 html {
-    font-size: 16px;
+    font-size: 18px;
     scroll-behavior: smooth;
 }
 
@@ -38,8 +41,12 @@ body {
 * {
     box-sizing: border-box;
     color: var(--primary-text-color);
+
     font-family: "Inter", sans-serif;
-    font-weight: 400;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+
     margin: 0;
 }
 
@@ -53,12 +60,6 @@ a {
 
 ul {
     list-style: none;
-}
-
-h1,
-h2 {
-    font-family: "Cormorant Garamond", serif;
-    font-weight: bold;
 }
 
 h1 {
@@ -78,49 +79,61 @@ strong {
 }
 
 
-.darkBtn {
-    width: fit-content;
-    background-color: var(--primary-text-color);
-    color: var(--white-color);
-    border: none;
-    padding: 1rem 2rem;
-    border-radius: 8px;
-
+.btn {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    gap: 1rem;
-
-    cursor: pointer;
-    background-color: var(--primary-text-color);
-    color: var(--white-color);
-    transition: all 0.3s ease-in-out;
-}
-
-.lightBtn {
-
+    gap: 2px;
     width: fit-content;
-    background: none;
-    border: 2px solid var(--primary-text-color);
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: var(--white-color);
     color: var(--primary-text-color);
-    padding: 1rem 2rem;
-    border-radius: 8px;
-
+    border: none;
+    border-radius: 50px;
     cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 1rem;
-
+    
     transition: all 0.3s ease-in-out;
 }
 
-.lightBtn:hover {
+.btn:hover {
     background-color: var(--primary-text-color);
     color: var(--white-color);
+}
+
+.btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn:hover svg {
+    stroke: var(--white-color);
+    color: var(--white-color);
+}
+
+
+.redirect {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    width: fit-content;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid var(--white-color);
+    
+    transition: all 0.3s ease-in-out;
+}
+
+.redirect:hover {
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.redirect svg {
+    width: 1.2rem;
+    height: 1.2rem;
 }
 
 

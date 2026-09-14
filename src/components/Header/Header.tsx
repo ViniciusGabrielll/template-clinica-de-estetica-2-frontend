@@ -1,7 +1,8 @@
 import { data } from "../../data/data";
 import styles from "./Header.module.css";
 
-import whatsappWhite from "../../assets/icons/whatsappWhite.svg";
+import whatsappBlack from "../../assets/icons/whatsappBlack.svg";
+import instagramBlack from "../../assets/icons/instagramBlack.svg";
 import { NavLink } from "react-router-dom";
 
 
@@ -25,7 +26,10 @@ export default function Header() {
                         }>Contato</NavLink>
             </nav>
             <a className={styles.whatsAppHeader} href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
-                <img src={whatsappWhite} alt="Ícone do WhatsApp" />
+                <img src={whatsappBlack} alt="Ícone do WhatsApp" />
+            </a>
+            <a className={styles.instagramHeader} href={data.instagramLink} target="_blank" rel="noopener noreferrer">
+                <img src={instagramBlack} alt="Ícone do Instagram" />
             </a>
         </div>
     )
