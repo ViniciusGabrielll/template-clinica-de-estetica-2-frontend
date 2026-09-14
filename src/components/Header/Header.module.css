@@ -6,6 +6,7 @@
     z-index: 1000;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding-left: var(--default-padding);
     padding-right: var(--default-padding);
     height: var(--header-height);
@@ -13,7 +14,40 @@
     background-color: var(--white-color);
 }
 
-.markHeader {
-    height: 4rem;
+.headerContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
 }
 
+.nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav a {
+    width: fit-content;
+    padding-left: 1rem;
+    border-left: 3px solid var(--white-color);
+    transition: all 0.3s ease-in-out;
+
+}
+
+.nav a:hover,
+.nav a.active {
+    border-left: 3px solid var(--primary-text-color);
+}
+
+.headerContact {
+    display: flex;
+    gap: 1rem;
+}
+
+.headerContact a{
+    height: 2rem;
+}
+
+.markHeader {
+    height: 2rem;
+}

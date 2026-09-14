@@ -6,6 +6,7 @@ export interface Service {
     description: string | null;
     duration: number;
     price: number;
+    image_url: string | null;
     active: boolean;
 }
 
@@ -47,10 +48,6 @@ export interface BlockedDate {
     date: string;
     reason: string | null;
 }
-
-// ================================
-// DATAS BLOQUEADAS
-// ================================
 
 export async function getBlockedDates(): Promise<BlockedDate[]> {
     const response = await fetch(
@@ -125,10 +122,6 @@ export async function deleteBlockedDate(
 
     return result;
 }
-
-// ================================
-// HORÁRIOS DE FUNCIONAMENTO
-// ================================
 
 export async function getBusinessHours(): Promise<BusinessHour[]> {
     const response = await fetch(
@@ -239,27 +232,34 @@ export async function deleteBusinessHour(
     return result;
 }
 
-// ================================
-// SERVIÇOS
-// ================================
-
 export async function createService(data: {
     name: string;
     description: string;
     duration: number;
     price: number;
+    image?: File | null;
 }) {
     const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("duration", data.duration.toString());
+    formData.append("price", data.price.toString());
+
+    if (data.image) {
+        formData.append("image", data.image);
+    }
 
     const response = await fetch(
         `${API_URL}/services`,
         {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(data),
+            body: formData,
         }
     );
 
@@ -282,19 +282,30 @@ export async function updateService(
         description: string;
         duration: number;
         price: number;
+        image?: File | null;
     }
 ) {
     const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("duration", data.duration.toString());
+    formData.append("price", data.price.toString());
+
+    if (data.image) {
+        formData.append("image", data.image);
+    }
 
     const response = await fetch(
         `${API_URL}/services/${id}`,
         {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(data),
+            body: formData,
         }
     );
 
@@ -353,10 +364,6 @@ export async function getServices(): Promise<Service[]> {
 
     return data;
 }
-
-// ================================
-// HORÁRIOS DISPONÍVEIS
-// ================================
 
 export async function getAvailableTimes(
     date: string,
