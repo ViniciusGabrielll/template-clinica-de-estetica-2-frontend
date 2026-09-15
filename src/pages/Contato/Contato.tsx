@@ -1,9 +1,9 @@
 import styles from "./Contato.module.css";
 
-import whatsappPrimaryColor from "../../assets/icons/whatsappPrimaryColor.svg";
-import instagramPrimaryColor from "../../assets/icons/instagramPrimaryColor.svg";
-import businessHoursPrimaryColor from "../../assets/icons/businessHoursPrimaryColor.svg";
-import mapsPrimaryColor from "../../assets/icons/mapsPrimaryColor.svg";
+import whatsapp from "../../assets/icons/whatsapp.svg";
+import instagram from "../../assets/icons/instagram.svg";
+import businessHours from "../../assets/icons/businessHours.svg";
+import maps from "../../assets/icons/maps.svg";
 
 import { data } from "../../data/data";
 import { useEffect, useState } from "react";
@@ -50,9 +50,12 @@ export default function Contato() {
 
     return (
         <main className={styles.contact} id="contato">
-            <section className={styles.contactSection1}>
-                <h3>ENVIE UMA MENSAGEM VIA WHATSAPP</h3>
+            <section className={styles.iframeSection}>
+                <iframe className={styles.iframe} src={data.mapsLink} title="Localização da clínica no mapa" loading="lazy"></iframe>
+            </section>
+            <section className={styles.contactSection}>
                 <form className={styles.form} onSubmit={handleSubmit}>
+                    <h3>ENVIE UMA MENSAGEM VIA WHATSAPP</h3>
 
                     <input
                         type="text"
@@ -91,27 +94,24 @@ export default function Contato() {
                     <button type="submit">Enviar</button>
                 </form>
                 <div className={styles.contactContent}>
-                    <div className={styles.contactCardContainer}>
-                        <a className={styles.contactCard} href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
-                            <img src={whatsappPrimaryColor} alt="Ícone do WhatsApp" />
-                            <h1>{data.number}</h1>
-                        </a>
-                        <a className={styles.contactCard} href={data.instagramLink} target="_blank" rel="noopener noreferrer">
-                            <img src={instagramPrimaryColor} alt="Ícone do Instagram" />
-                            <h1>@{data.instagram}</h1>
-                        </a>
-                        <div className={styles.contactCard}>
-                            <img src={businessHoursPrimaryColor} alt="Ícone de Horário" />
-                            <h1>{data.businessHours}</h1>
-                        </div>
-                        <div className={styles.contactCard}>
-                            <img src={mapsPrimaryColor} alt="Ícone de Localização" />
-                            <h1>{data.location}</h1>
-                        </div>
+                    <a className={styles.contactCard} href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
+                        <img src={whatsapp} alt="Ícone do WhatsApp" />
+                        <h2>{data.number}</h2>
+                    </a>
+                    <a className={styles.contactCard} href={data.instagramLink} target="_blank" rel="noopener noreferrer">
+                        <img src={instagram} alt="Ícone do Instagram" />
+                        <h2>@{data.instagram}</h2>
+                    </a>
+                    <div className={styles.contactCard}>
+                        <img src={businessHours} alt="Ícone de Horário" />
+                        <h2>{data.businessHours}</h2>
+                    </div>
+                    <div className={styles.contactCard}>
+                        <img src={maps} alt="Ícone de Localização" />
+                        <h2>{data.location}</h2>
                     </div>
                 </div>
 
-                <iframe className={styles.iframe} src={data.mapsLink} title="Localização da clínica no mapa" loading="lazy"></iframe>
 
             </section>
         </main >

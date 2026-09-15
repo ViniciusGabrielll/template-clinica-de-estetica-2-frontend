@@ -12,25 +12,24 @@
     flex-direction: column;
     gap: 2rem;
     padding-top: 15rem;
-    background-color: var(--primary-text-color);
-}
+    background-color: var(--white-color);
 
-.sidebar * {
-    color: var(--white-color);
+    border-right: 2px solid var(--light-grey-color);
+
 }
 
 .sidebar button {
-    background-color: var(--primary-text-color);
-    border-left: 2px solid var(--primary-text-color);
+    border-left: 2px solid var(--white-color);
     border-bottom: none;
     border-top: none;
     border-right: none;
     transition: .2s;
+    background-color: var(--white-color);
 }
 
 .sidebar button:hover,
 .sidebar button.active {
-    border-left: 2px solid var(--white-color);
+    border-left: 2px solid var(--primary-text-color);
 }
 
 .sidebar nav {

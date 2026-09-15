@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
     getServices,
@@ -12,44 +15,39 @@ import styles from "./Agendamento.module.css";
 
 function Agendamento() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
-    const [services, setServices] =
-        useState<Service[]>([]);
+    const [services, setServices] = useState<Service[]>([]);
+    const [selectedServices, setSelectedServices] = useState<number[]>([]);
+    useEffect(() => {
+        const serviceId = searchParams.get("servico");
 
-    const [selectedServices, setSelectedServices] =
-        useState<number[]>([]);
+        if (!serviceId) {
+            return;
+        }
 
-    const [loading, setLoading] =
-        useState(true);
+        const id = Number(serviceId);
 
-    const [error, setError] =
-        useState("");
+        if (!services.some((service) => service.id === id)) {
+            return;
+        }
 
-    const [selectedDate, setSelectedDate] =
-        useState<string>("");
-
-    const [availableTimes, setAvailableTimes] =
-        useState<string[]>([]);
-
-    const [loadingTimes, setLoadingTimes] =
-        useState(false);
+        setSelectedServices([id]);
+    }, [searchParams, services]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+    const [validationError, setValidationError] = useState("");
+    const [selectedDate, setSelectedDate] = useState<string>("");
+    const [availableTimes, setAvailableTimes] = useState<string[]>([]);
+    const [loadingTimes, setLoadingTimes] = useState(false);
+    const [selectedTime, setSelectedTime] = useState<string>("");
+    const [customerName, setCustomerName] = useState<string>("");
+    const [customerPhone, setCustomerPhone] = useState<string>("");
+    const [creatingAppointment, setCreatingAppointment] = useState(false);
 
     const today = new Date()
         .toISOString()
         .split("T")[0];
-
-    const [selectedTime, setSelectedTime] =
-        useState<string>("");
-
-    const [customerName, setCustomerName] =
-        useState<string>("");
-
-    const [customerPhone, setCustomerPhone] =
-        useState<string>("");
-
-    const [creatingAppointment, setCreatingAppointment] =
-        useState(false);
-
 
     useEffect(() => {
         async function loadServices() {
@@ -85,6 +83,7 @@ function Agendamento() {
         });
 
         setSelectedTime("");
+        setValidationError("");
     }
 
     useEffect(() => {
@@ -119,23 +118,42 @@ function Agendamento() {
     }, [selectedServices, selectedDate]);
 
     async function handleCreateAppointment() {
+        setValidationError("");
+
         if (selectedServices.length === 0) {
+            setValidationError(
+                "Selecione pelo menos um serviço."
+            );
             return;
         }
 
         if (!selectedDate) {
+            setValidationError(
+                "Selecione uma data."
+            );
             return;
         }
 
         if (!selectedTime) {
+            setValidationError(
+                "Selecione um horário."
+            );
             return;
         }
 
         if (!customerName.trim()) {
+            setValidationError(
+                "Informe seu nome."
+            );
             return;
         }
 
-        if (!customerPhone.trim()) {
+        const phone = customerPhone.replace(/\D/g, "");
+
+        if (phone.length < 10) {
+            setValidationError(
+                "Informe um telefone válido."
+            );
             return;
         }
 
@@ -144,8 +162,8 @@ function Agendamento() {
 
             await createAppointment({
                 service_ids: selectedServices,
-                customer_name: customerName,
-                customer_phone: customerPhone,
+                customer_name: customerName.trim(),
+                customer_phone: phone,
                 appointment_date: selectedDate,
                 start_time: selectedTime
             });
@@ -161,11 +179,10 @@ function Agendamento() {
                     totalPrice
                 }
             });
-
         } catch (error) {
             console.error(error);
 
-            alert(
+            setValidationError(
                 error instanceof Error
                     ? error.message
                     : "Não foi possível realizar o agendamento."
@@ -175,13 +192,11 @@ function Agendamento() {
         }
     }
 
-
     const selectedServiceObjects =
         services.filter(
             (service) =>
                 selectedServices.includes(service.id)
         );
-
 
     const totalDuration =
         selectedServiceObjects.reduce(
@@ -197,7 +212,6 @@ function Agendamento() {
             0
         );
 
-
     if (loading) {
         return <p>Carregando serviços...</p>;
     }
@@ -206,239 +220,306 @@ function Agendamento() {
         return <p>{error}</p>;
     }
 
-
     return (
         <main className={styles.container}>
+            <div className={styles.cardsContainer}>
 
-            <div className={styles.service}>
+                <div className={`${styles.service} ${styles.card}`}>
+                    <div className={styles.cardTitle}>
+                        <span className={styles.cardCount}>
+                            1
+                        </span>
 
-                <h2>Serviços</h2>
+                        <h2>
+                            Tratamentos desejados
+                        </h2>
+                    </div>
 
-                <div className={styles.serviceList}>
+                    <div className={styles.serviceList}>
+                        {services.map((service) => {
+                            const isSelected =
+                                selectedServices.includes(
+                                    service.id
+                                );
 
-                    {services.map((service) => {
-
-                        const isSelected =
-                            selectedServices.includes(
-                                service.id
-                            );
-
-                        return (
-                            <button
-                                key={service.id}
-                                type="button"
-                                onClick={() =>
-                                    toggleService(
-                                        service.id
-                                    )
-                                }
-                                className={`
-                                    ${styles.serviceBtn}
-                                    ${isSelected
-                                        ? styles.active
-                                        : ""
+                            return (
+                                <button
+                                    key={service.id}
+                                    type="button"
+                                    onClick={() =>
+                                        toggleService(
+                                            service.id
+                                        )
                                     }
-                                `}
-                            >
+                                    className={`
+                                        ${styles.serviceBtn}
+                                        ${isSelected
+                                            ? styles.active
+                                            : ""
+                                        }
+                                    `}
+                                >
+                                    <span>
+                                        {service.name}
+                                    </span>
 
-                                <strong>
-                                    {service.name}
-                                </strong>
+                                    <strong>
+                                        R${" "}
+                                        {Number(
+                                            service.price
+                                        ).toFixed(2)}
+                                    </strong>
+                                </button>
+                            );
+                        })}
+                    </div>
 
-                                <br />
-
-                                <span>
-                                    {service.description}
-                                </span>
-
-                                <br />
-
-                                <span>
-                                    Duração:{" "}
-                                    {service.duration} minutos
-                                </span>
-
-                                <br />
-
-                                <strong>
-                                    R${" "}
-                                    {Number(
-                                        service.price
-                                    ).toFixed(2)}
-                                </strong>
-
-                            </button>
-                        );
-                    })}
-
+                    <p>
+                        Selecionados:{" "}
+                        {selectedServices.length}
+                    </p>
                 </div>
-                <p>Selecionados: {selectedServices.length}</p>
-            </div>
 
+                <div
+                    className={`
+                        ${styles.date}
+                        ${styles.card}
+                        ${selectedServices.length > 0
+                            ? styles.active
+                            : ""
+                        }
+                    `}
+                >
+                    <div className={styles.cardTitle}>
+                        <span className={styles.cardCount}>
+                            2
+                        </span>
 
+                        <h2>
+                            Data desejada
+                        </h2>
+                    </div>
 
-            <div
-                className={`
-                    ${styles.data}
-                    ${selectedServices.length > 0
-                        ? styles.active
-                        : ""
-                    }
-                `}
-            >
-
-                <h2>
-                    Data de agendamento
-                </h2>
-
-                <input
-                    type="date"
-                    min={today}
-                    value={selectedDate}
-                    onChange={(event) => {
-                        setSelectedDate(
-                            event.target.value
-                        );
-
-                        setSelectedTime("");
-                    }}
-                    className={styles.dateInput}
-                />
-
-
-                {selectedDate && (
-                    <>
-
-                        <h3>
-                            Horários disponíveis
-                        </h3>
-
-
-                        {loadingTimes ? (
-
-                            <p>
-                                Carregando horários...
-                            </p>
-
-                        ) : availableTimes.length === 0 ? (
-
-                            <p>
-                                Nenhum horário disponível
-                                para essa data.
-                            </p>
-
-                        ) : (
-
-                            <div
-                                className={
-                                    styles.timeList
-                                }
-                            >
-
-                                {availableTimes.map(
-                                    (time) => (
-
-                                        <button
-                                            key={time}
-                                            type="button"
-                                            onClick={() =>
-                                                setSelectedTime(
-                                                    time
-                                                )
-                                            }
-                                            className={`
-                                                ${styles.time}
-                                                ${selectedTime === time
-                                                    ? styles.selectedTime
-                                                    : ""
-                                                }
-                                            `}
-                                        >
-                                            {time}
-                                        </button>
-
+                    <div className={styles.datePicker}>
+                        <DatePicker
+                            selected={
+                                selectedDate
+                                    ? new Date(
+                                        `${selectedDate}T00:00:00`
                                     )
-                                )}
-
-                            </div>
-                        )}
-
-                    </>
-                )}
-
-            </div>
-
-            <div>
-                <div className={styles.customerData}>
-
-                    <h2>
-                        Informações
-                    </h2>
-
-                    <div className={styles.customerInputs}>
-                        <input
-                            type="text"
-                            placeholder="Seu nome"
-                            value={
-                                customerName
+                                    : null
                             }
-                            onChange={(event) =>
-                                setCustomerName(
-                                    event.target.value
+                            onChange={(date: Date | null) => {
+                                if (!date) {
+                                    setSelectedDate("");
+                                    setSelectedTime("");
+                                    setValidationError("");
+                                    return;
+                                }
+
+                                const formattedDate =
+                                    date
+                                        .toISOString()
+                                        .split("T")[0];
+
+                                setSelectedDate(
+                                    formattedDate
+                                );
+
+                                setSelectedTime("");
+                                setValidationError("");
+                            }}
+                            minDate={
+                                new Date(
+                                    `${today}T00:00:00`
                                 )
                             }
-
-                            className={styles.customerInput}
-                        />
-
-                        <input
-                            type="tel"
-                            placeholder="(00) 00000-0000"
-                            value={customerPhone}
-                            onChange={(event) => {
-                                let value = event.target.value.replace(/\D/g, "");
-
-                                if (value.length > 11) {
-                                    value = value.slice(0, 11);
-                                }
-
-                                if (value.length <= 10) {
-                                    value = value.replace(
-                                        /^(\d{2})(\d{4})(\d{0,4}).*/,
-                                        "($1) $2-$3"
-                                    );
-                                } else {
-                                    value = value.replace(
-                                        /^(\d{2})(\d{5})(\d{0,4}).*/,
-                                        "($1) $2-$3"
-                                    );
-                                }
-
-                                setCustomerPhone(value);
-                            }}
-                            className={styles.customerInput}
+                            inline
+                            dateFormat="dd/MM/yyyy"
+                            showMonthDropdown
+                            showYearDropdown
+                            dropdownMode="select"
                         />
                     </div>
 
-                    <button
-                        type="button"
-                        onClick={
-                            handleCreateAppointment
-                        }
-                        disabled={
-                            creatingAppointment
-                        }
-                        className={styles.confirmBtn}
-                    >
-                        {creatingAppointment
-                            ? "Agendando..."
-                            : "Confirmar agendamento"}
-                    </button>
+                    {selectedDate && (
+                        <>
+                            <h3>
+                                Horários disponíveis
+                            </h3>
 
+                            {loadingTimes ? (
+                                <p>
+                                    Carregando horários...
+                                </p>
+                            ) : availableTimes.length === 0 ? (
+                                <p>
+                                    Nenhum horário disponível
+                                    para essa data.
+                                </p>
+                            ) : (
+                                <div
+                                    className={
+                                        styles.timeList
+                                    }
+                                >
+                                    {availableTimes.map(
+                                        (time) => (
+                                            <button
+                                                key={time}
+                                                type="button"
+                                                onClick={() => {
+                                                    setSelectedTime(
+                                                        time
+                                                    );
+                                                    setValidationError("");
+                                                }}
+                                                className={`
+                                                    ${styles.time}
+                                                    ${selectedTime === time
+                                                        ? styles.active
+                                                        : ""
+                                                    }
+                                                `}
+                                            >
+                                                {time}
+                                            </button>
+                                        )
+                                    )}
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
-                <span>Suas informações estaram seguras, apenas serão usadas para confirmar agendamento.</span>
-            </div>
 
+                <div
+                    className={`
+                        ${styles.customerData}
+                        ${styles.card}
+                        ${selectedTime.length > 0
+                            ? styles.active
+                            : ""
+                        }
+                    `}
+                >
+                    <div className={styles.cardTitle}>
+                        <span className={styles.cardCount}>
+                            3
+                        </span>
+
+                        <h2>
+                            Informações
+                        </h2>
+                    </div>
+
+                    <div className={styles.customerDataContent}>
+                        <div className={styles.customerInputs}>
+                            <input
+                                type="text"
+                                placeholder="Seu nome"
+                                value={customerName}
+                                onChange={(event) => {
+                                    setCustomerName(
+                                        event.target.value
+                                    );
+                                    setValidationError("");
+                                }}
+                                className={styles.customerInput}
+                            />
+
+                            <div className={styles.phoneInput}>
+                                <span
+                                    className={
+                                        styles.phonePrefix
+                                    }
+                                >
+                                    +55
+                                </span>
+
+                                <input
+                                    type="tel"
+                                    placeholder="(00) 00000-0000"
+                                    value={customerPhone}
+                                    onChange={(event) => {
+                                        let value =
+                                            event.target.value.replace(
+                                                /\D/g,
+                                                ""
+                                            );
+
+                                        if (
+                                            value.length > 11
+                                        ) {
+                                            value =
+                                                value.slice(
+                                                    0,
+                                                    11
+                                                );
+                                        }
+
+                                        if (
+                                            value.length <= 10
+                                        ) {
+                                            value =
+                                                value.replace(
+                                                    /^(\d{2})(\d{4})(\d{0,4}).*/,
+                                                    "($1) $2-$3"
+                                                );
+                                        } else {
+                                            value =
+                                                value.replace(
+                                                    /^(\d{2})(\d{5})(\d{0,4}).*/,
+                                                    "($1) $2-$3"
+                                                );
+                                        }
+
+                                        setCustomerPhone(
+                                            value
+                                        );
+                                        setValidationError("");
+                                    }}
+                                    className={
+                                        styles.customerInput
+                                    }
+                                />
+                            </div>
+                        </div>
+
+                        {validationError && (
+                            <p
+                                className={
+                                    styles.validationError
+                                }
+                            >
+                                {validationError}
+                            </p>
+                        )}
+
+                        <button
+                            type="button"
+                            onClick={
+                                handleCreateAppointment
+                            }
+                            disabled={
+                                creatingAppointment
+                            }
+                            className={
+                                styles.confirmBtn
+                            }
+                        >
+                            {creatingAppointment
+                                ? "Agendando..."
+                                : "Agendar"}
+                        </button>
+                    </div>
+
+                    <span>
+                        Suas informações estarão seguras,
+                        apenas serão usadas para confirmar
+                        o agendamento.
+                    </span>
+                </div>
+            </div>
         </main>
     );
 }

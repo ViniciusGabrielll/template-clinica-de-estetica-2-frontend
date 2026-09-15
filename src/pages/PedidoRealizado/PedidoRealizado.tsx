@@ -162,7 +162,7 @@ function PedidoRealizado() {
                 onClick={() =>
                     navigate("/")
                 }
-                className={styles.backToHomeBtn}
+                className="btn"
             >
                 Voltar para o início
             </button>

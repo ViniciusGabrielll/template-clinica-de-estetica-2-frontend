@@ -9,7 +9,7 @@
     align-items: center;
     padding-left: var(--default-padding);
     padding-right: var(--default-padding);
-    height: var(--header-height);
+    height: var(--default-padding);
     align-items: center;
     background-color: var(--white-color);
 }
