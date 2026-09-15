@@ -8,7 +8,7 @@
 
 .header p {
     margin-top: 8px;
-    color: #777;
+    color: var(--grey-color);
 }
 
 
@@ -93,8 +93,6 @@
 }
 
 
-/* LISTA */
-
 .list {
     display: flex;
     flex-direction: column;
@@ -111,9 +109,17 @@
     justify-content: space-between;
     align-items: center;
     gap: 20px;
-    padding: 20px;
     border: 2px solid var(--primary-text-color);
     background: white;
+}
+
+.cardImg {
+    height: 200px;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    flex-shrink: 0;
+    background-position: center;
 }
 
 .cardInfo {
@@ -154,8 +160,6 @@
     cursor: pointer;
 }
 
-
-/* RESPONSIVO */
 
 @media (max-width: 850px) {
 

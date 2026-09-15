@@ -389,9 +389,9 @@ function Servicos() {
                                 className={styles.card}
                             >
                                 {service.image_url && (
-                                    <img
-                                        src={service.image_url}
-                                        alt={service.name}
+                                    <div
+                                        className={styles.cardImg}
+                                        style={{backgroundImage: `url(${service.image_url})`}}
                                     />
                                 )}
 

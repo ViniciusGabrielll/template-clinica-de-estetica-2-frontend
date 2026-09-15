@@ -15,9 +15,8 @@
     gap: 2rem;
 
     padding: 1.5rem;
-    background-color: white;
-
-    border: 2px solid var(--primary-text-color);
+    background-color: var(--light-grey-color);
+    border-radius: var(--default-border-radius);
 }
 
 .card p {
