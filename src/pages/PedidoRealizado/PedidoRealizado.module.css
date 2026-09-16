@@ -14,7 +14,7 @@
 .infoCard {
     background-color: var(--light-grey-color);
     width: 50vw;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     border-radius: var(--default-border-radius);
@@ -28,6 +28,53 @@
 .customerInfo {
     display: flex;
     gap: 1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.servicesInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.servicesInfo > span {
+    text-align: left;
+}
+
+.serviceList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.serviceItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--white-color);
+    border-radius: 0.75rem;
+}
+
+.servicePrices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.1rem;
+}
+
+.originalPrice {
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.promotionalPrice {
+    font-size: 1rem;
+    font-weight: 700;
 }
 
 .backToHomeBtn {
@@ -36,19 +83,35 @@
     padding: 1rem 2rem;
     border-radius: 8px;
     border: 2px solid var(--white-color);
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     gap: 1rem;
-
     cursor: pointer;
-
     transition: all 0.3s ease-in-out;
 }
 
 .backToHomeBtn:hover {
     background-color: var(--white-color);
     color: var(--primary-text-color);
+}
+
+@media (max-width: 768px) {
+    .infoCard {
+        width: 100%;
+    }
+
+    .customerInfo {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .serviceItem {
+        align-items: flex-start;
+    }
+
+    .servicePrices {
+        align-items: flex-start;
+    }
 }

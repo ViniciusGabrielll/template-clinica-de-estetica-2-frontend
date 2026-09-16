@@ -8,6 +8,18 @@ export interface Service {
     price: number;
     image_url: string | null;
     active: boolean;
+    featured: boolean;
+}
+
+export interface Promotion {
+    id: number;
+    service_id: number;
+    original_price: number;
+    promotional_price: number;
+    expires_at: string;
+    created_at: string;
+    service_name: string;
+    service_image: string | null;
 }
 
 export interface AvailableTime {
@@ -238,6 +250,7 @@ export async function createService(data: {
     duration: number;
     price: number;
     image?: File | null;
+    featured: boolean;
 }) {
     const token = localStorage.getItem("token");
 
@@ -245,8 +258,18 @@ export async function createService(data: {
 
     formData.append("name", data.name);
     formData.append("description", data.description);
-    formData.append("duration", data.duration.toString());
-    formData.append("price", data.price.toString());
+    formData.append(
+        "duration",
+        data.duration.toString()
+    );
+    formData.append(
+        "price",
+        data.price.toString()
+    );
+    formData.append(
+        "featured",
+        data.featured.toString()
+    );
 
     if (data.image) {
         formData.append("image", data.image);
@@ -283,6 +306,7 @@ export async function updateService(
         duration: number;
         price: number;
         image?: File | null;
+        featured: boolean;
     }
 ) {
     const token = localStorage.getItem("token");
@@ -291,8 +315,18 @@ export async function updateService(
 
     formData.append("name", data.name);
     formData.append("description", data.description);
-    formData.append("duration", data.duration.toString());
-    formData.append("price", data.price.toString());
+    formData.append(
+        "duration",
+        data.duration.toString()
+    );
+    formData.append(
+        "price",
+        data.price.toString()
+    );
+    formData.append(
+        "featured",
+        data.featured.toString()
+    );
 
     if (data.image) {
         formData.append("image", data.image);
@@ -365,6 +399,151 @@ export async function getServices(): Promise<Service[]> {
     return data;
 }
 
+export async function getFeaturedServices(): Promise<Service[]> {
+    const response = await fetch(
+        `${API_URL}/services/featured`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Erro ao buscar serviços em destaque."
+        );
+    }
+
+    return data;
+}
+
+export async function getPromotions(): Promise<Promotion[]> {
+    const response = await fetch(
+        `${API_URL}/promotions`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Erro ao buscar promoções."
+        );
+    }
+
+    return data;
+}
+
+export async function getPromotionById(
+    id: number
+): Promise<Promotion> {
+    const response = await fetch(
+        `${API_URL}/promotions/${id}`
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message ||
+            "Erro ao buscar promoção."
+        );
+    }
+
+    return data;
+}
+
+export async function createPromotion(data: {
+    service_id: number;
+    promotional_price: number;
+    expires_at: string;
+}) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `${API_URL}/promotions`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            result.message ||
+            "Erro ao criar promoção."
+        );
+    }
+
+    return result;
+}
+
+export async function updatePromotion(
+    id: number,
+    data: {
+        service_id: number;
+        promotional_price: number;
+        expires_at: string;
+    }
+) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `${API_URL}/promotions/${id}`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            result.message ||
+            "Erro ao atualizar promoção."
+        );
+    }
+
+    return result;
+}
+
+export async function deletePromotion(
+    id: number
+) {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(
+        `${API_URL}/promotions/${id}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            result.message ||
+            "Erro ao excluir promoção."
+        );
+    }
+
+    return result;
+}
+
 export async function getAvailableTimes(
     date: string,
     serviceIds: number[]
@@ -395,10 +574,6 @@ export async function getAvailableTimes(
 
     return data;
 }
-
-// ================================
-// AGENDAMENTOS
-// ================================
 
 export async function createAppointment(
     data: CreateAppointmentData
@@ -436,7 +611,8 @@ export type Appointment = {
     status: string;
     service_name: string;
     duration: number;
-    price: number | string;
+    original_total_price: number | string;
+    total_price: number | string;
 };
 
 export async function getAppointments(): Promise<Appointment[]> {

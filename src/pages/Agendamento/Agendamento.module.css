@@ -52,16 +52,15 @@
 }
 
 .serviceBtn {
-    background-color: none;
+    background-color: transparent;
     border-radius: var(--default-border-radius);
     border: 2px solid var(--primary-color);
     width: 100%;
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     cursor: pointer;
-
     transition: all 0.3s ease-in-out;
 }
 
@@ -72,6 +71,38 @@
 .serviceBtn.active * {
     color: var(--white-color);
     transition: all 0.3s ease-in-out;
+}
+
+.servicePrices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+}
+
+.originalPrice {
+    font-size: 0.8rem;
+    font-weight: 400;
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.promotionalPrice {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+.total strong {
+    font-size: 1.25rem;
 }
 
 .date {
@@ -136,7 +167,7 @@
 
 .datePicker :global(.react-datepicker__day-name) {
     color: #888;
-    font-size: 0.80rem;
+    font-size: 0.8rem;
 }
 
 .datePicker :global(.react-datepicker__day) {
@@ -186,7 +217,6 @@
     background-color: var(--primary-color);
     color: var(--white-color);
 }
-
 
 .customerData {
     opacity: 0;
@@ -267,7 +297,6 @@
 }
 
 @media (max-width: 768px) {
-
     .container {
         padding: var(--default-padding);
         padding-top: var(--header-height);

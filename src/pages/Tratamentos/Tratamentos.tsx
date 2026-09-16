@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getServices, type Service } from "../../services/api";
+import {
+    getServices,
+    getPromotions,
+    type Service,
+    type Promotion
+} from "../../services/api";
 
 import styles from "./Tratamentos.module.css";
 
@@ -8,16 +13,19 @@ import { FiSearch, FiFilter } from "react-icons/fi";
 
 export default function Tratamentos() {
     const [services, setServices] = useState<Service[]>([]);
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [search, setSearch] = useState("");
 
     const [showFilters, setShowFilters] = useState(false);
     const [minPrice, setMinPrice] = useState("");
     const [maxPrice, setMaxPrice] = useState("");
     const [sortPrice, setSortPrice] = useState("");
+    const [promotionFilter, setPromotionFilter] = useState("");
 
     const [activeMinPrice, setActiveMinPrice] = useState("");
     const [activeMaxPrice, setActiveMaxPrice] = useState("");
     const [activeSortPrice, setActiveSortPrice] = useState("");
+    const [activePromotionFilter, setActivePromotionFilter] = useState("");
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -27,9 +35,14 @@ export default function Tratamentos() {
             try {
                 setLoading(true);
 
-                const data = await getServices();
+                const [servicesData, promotionsData] =
+                    await Promise.all([
+                        getServices(),
+                        getPromotions()
+                    ]);
 
-                setServices(data);
+                setServices(servicesData);
+                setPromotions(promotionsData);
             } catch (error) {
                 console.error(error);
 
@@ -48,16 +61,26 @@ export default function Tratamentos() {
         setActiveMinPrice(minPrice);
         setActiveMaxPrice(maxPrice);
         setActiveSortPrice(sortPrice);
+        setActivePromotionFilter(promotionFilter);
     }
 
     function handleClearFilters() {
         setMinPrice("");
         setMaxPrice("");
         setSortPrice("");
+        setPromotionFilter("");
 
         setActiveMinPrice("");
         setActiveMaxPrice("");
         setActiveSortPrice("");
+        setActivePromotionFilter("");
+    }
+
+    function getPromotion(serviceId: number) {
+        return promotions.find(
+            (promotion) =>
+                promotion.service_id === serviceId
+        );
     }
 
     const filteredServices = services
@@ -65,6 +88,9 @@ export default function Tratamentos() {
             const matchesSearch = service.name
                 .toLowerCase()
                 .includes(search.toLowerCase().trim());
+
+            const promotion = getPromotion(service.id);
+            const hasPromotion = Boolean(promotion);
 
             const price = Number(service.price);
 
@@ -76,10 +102,18 @@ export default function Tratamentos() {
                 !activeMaxPrice ||
                 price <= Number(activeMaxPrice);
 
+            const matchesPromotion =
+                !activePromotionFilter ||
+                (activePromotionFilter === "with" &&
+                    hasPromotion) ||
+                (activePromotionFilter === "without" &&
+                    !hasPromotion);
+
             return (
                 matchesSearch &&
                 matchesMinPrice &&
-                matchesMaxPrice
+                matchesMaxPrice &&
+                matchesPromotion
             );
         })
         .sort((a, b) => {
@@ -142,7 +176,8 @@ export default function Tratamentos() {
                     }
                     className={styles.filter}
                 >
-                    <FiFilter /> {showFilters ? "Fechar" : "Filtrar"}
+                    <FiFilter />
+                    {showFilters ? "Fechar" : "Filtrar"}
                 </button>
             </div>
 
@@ -211,6 +246,33 @@ export default function Tratamentos() {
                         </select>
                     </div>
 
+                    <div className={styles.filterGroup}>
+                        <label>
+                            Promoção
+                        </label>
+
+                        <select
+                            value={promotionFilter}
+                            onChange={(event) =>
+                                setPromotionFilter(
+                                    event.target.value
+                                )
+                            }
+                        >
+                            <option value="">
+                                Todos
+                            </option>
+
+                            <option value="with">
+                                Com promoção
+                            </option>
+
+                            <option value="without">
+                                Sem promoção
+                            </option>
+                        </select>
+                    </div>
+
                     <div className={styles.filterActions}>
                         <button
                             type="button"
@@ -233,33 +295,82 @@ export default function Tratamentos() {
 
             <div className={styles.serviceList}>
                 {filteredServices.length > 0 ? (
-                    filteredServices.map((service) => (
-                        <Link
-                            to={`/agendamento?servico=${service.id}`}
-                            className={styles.serviceCard}
-                            key={service.id}
-                            style={{
-                                backgroundImage: `url(${service.image_url})`
-                            }}
-                        >
-                            <h3>
-                                {service.name}
-                            </h3>
+                    filteredServices.map((service) => {
+                        const promotion = getPromotion(
+                            service.id
+                        );
 
-                            <p>
-                                {service.description}
-                            </p>
+                        return (
+                            <Link
+                                to={`/agendamento?servico=${service.id}`}
+                                className={styles.serviceCard}
+                                key={service.id}
+                                style={{
+                                    backgroundImage: `url(${service.image_url})`
+                                }}
+                            >
+                                <h3>
+                                    {service.name}
+                                </h3>
 
-                            <strong>
-                                {Number(
-                                    service.price
-                                ).toLocaleString("pt-BR", {
-                                    style: "currency",
-                                    currency: "BRL"
-                                })}
-                            </strong>
-                        </Link>
-                    ))
+                                <p>
+                                    {service.description}
+                                </p>
+
+                                {promotion ? (
+                                    <div
+                                        className={
+                                            styles.promotionPrices
+                                        }
+                                    >
+                                        <span
+                                            className={
+                                                styles.originalPrice
+                                            }
+                                        >
+                                            {Number(
+                                                promotion.original_price
+                                            ).toLocaleString(
+                                                "pt-BR",
+                                                {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                }
+                                            )}
+                                        </span>
+
+                                        <strong
+                                            className={
+                                                styles.promotionalPrice
+                                            }
+                                        >
+                                            {Number(
+                                                promotion.promotional_price
+                                            ).toLocaleString(
+                                                "pt-BR",
+                                                {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                }
+                                            )}
+                                        </strong>
+                                    </div>
+                                ) : (
+                                    <strong>
+                                        {Number(
+                                            service.price
+                                        ).toLocaleString(
+                                            "pt-BR",
+                                            {
+                                                style: "currency",
+                                                currency: "BRL"
+                                            }
+                                        )}
+                                    </strong>
+                                )}
+                            </Link>
+                        );
+                    })
                 ) : (
                     <p>
                         Nenhum serviço encontrado.

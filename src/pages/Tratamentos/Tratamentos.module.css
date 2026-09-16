@@ -32,14 +32,15 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top,
-            rgba(74, 20, 100, 0.95)10%,
-            rgba(74, 20, 100, 0.7) 20%,
-            rgba(74, 20, 100, 0.25) 45%,
-            transparent 70%);
+    background: linear-gradient(
+        to top,
+        rgba(74, 20, 100, 0.95) 10%,
+        rgba(74, 20, 100, 0.7) 20%,
+        rgba(74, 20, 100, 0.25) 45%,
+        transparent 70%
+    );
     opacity: 0.5;
     pointer-events: none;
-
     transition: all 0.3s ease-in-out;
 }
 
@@ -47,10 +48,10 @@
     opacity: 1;
 }
 
-
 .serviceCard h3,
 .serviceCard p,
-.serviceCard strong {
+.serviceCard strong,
+.promotionPrices {
     position: relative;
     z-index: 1;
     color: var(--white-color);
@@ -59,6 +60,25 @@
 .serviceCard p {
     font-size: 0.8rem;
     font-weight: 300;
+}
+
+.promotionPrices {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+}
+
+.originalPrice {
+    font-size: 0.85rem;
+    font-weight: 400;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.promotionalPrice {
+    font-size: 1.4rem;
+    font-weight: 700;
 }
 
 .searchContainer {
@@ -89,7 +109,6 @@
     justify-content: center;
     gap: 0.75rem;
     cursor: pointer;
-
     transition: all 0.3s ease-in-out;
 }
 
@@ -139,9 +158,50 @@
     margin-left: auto;
 }
 
+@media (max-width: 1024px) {
+    .serviceList {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .filters {
+        flex-wrap: wrap;
+    }
+
+    .filterActions {
+        margin-left: 0;
+        width: 100%;
+    }
+}
 
 @media (max-width: 768px) {
     .serviceList {
         grid-template-columns: 1fr 1fr;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterActions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .serviceList {
+        grid-template-columns: 1fr;
+    }
+
+    .searchContainer {
+        flex-direction: column;
+    }
+
+    .searchInput {
+        width: 100%;
+    }
+
+    .filter {
+        width: 100%;
     }
 }

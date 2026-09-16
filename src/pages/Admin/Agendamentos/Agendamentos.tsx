@@ -305,71 +305,125 @@ function Agendamentos() {
             ) : (
                 <div className={styles.list}>
                     {filteredAppointments.map(
-                        (appointment) => (
-                            <section
-                                key={appointment.id}
-                                className={styles.card}
-                            >
-                                <div>
-                                    <strong>
-                                        {appointment.customer_name}
-                                    </strong>
+                        (appointment) => {
+                            const originalPrice =
+                                Number(
+                                    appointment.original_total_price ?? 0
+                                );
 
-                                    <p>
-                                        {appointment.customer_phone}
-                                    </p>
-                                </div>
+                            const totalPrice =
+                                Number(
+                                    appointment.total_price ?? 0
+                                );
 
-                                <div>
-                                    <strong>
-                                        {appointment.service_name}
-                                    </strong>
+                            const hasPromotion =
+                                originalPrice > totalPrice &&
+                                totalPrice > 0;
 
-                                    <p>
-                                        {appointment.duration}
-                                        {" minutos"}
-                                    </p>
-                                </div>
+                            return (
+                                <section
+                                    key={appointment.id}
+                                    className={styles.card}
+                                >
+                                    <div>
+                                        <strong>
+                                            {appointment.customer_name}
+                                        </strong>
 
-                                <div>
-                                    <strong>
-                                        {appointment.start_time.slice(0, 5)}
-                                        {" - "}
-                                        {appointment.end_time.slice(0, 5)}
-                                    </strong>
+                                        <p>
+                                            {appointment.customer_phone}
+                                        </p>
+                                    </div>
 
-                                    <p>
-                                        {String(
-                                            appointment.appointment_date
-                                        ).slice(0, 10)}
-                                    </p>
-                                </div>
+                                    <div>
+                                        <strong>
+                                            {appointment.service_name}
+                                        </strong>
 
-                                <div className={styles.filter}>
-                                    <select
-                                        value={appointment.status}
-                                        onChange={(event) =>
-                                            handleStatusChange(
-                                                appointment.id,
-                                                event.target.value
-                                            )
-                                        }
-                                    >
-                                        <option value="scheduled">
-                                            Na fila
-                                        </option>
+                                        <p>
+                                            {appointment.duration}
+                                            {" minutos"}
+                                        </p>
+                                    </div>
 
-                                        <option value="confirmed">
-                                            Confirmado
-                                        </option>
+                                    <div>
+                                        <strong
+                                            className={
+                                                hasPromotion
+                                                    ? styles.promotionalPrice
+                                                    : undefined
+                                            }
+                                        >
+                                            {hasPromotion && (
+                                                <span
+                                                    className={
+                                                        styles.originalPrice
+                                                    }
+                                                >
+                                                    {originalPrice.toLocaleString(
+                                                        "pt-BR",
+                                                        {
+                                                            style: "currency",
+                                                            currency: "BRL"
+                                                        }
+                                                    )}
+                                                </span>
+                                            )}
 
-                                        <option value="cancelled">
-                                            Cancelado
-                                        </option>
-                                    </select>
-                                </div>
-                            </section>
-                        )
+                                            {totalPrice.toLocaleString(
+                                                "pt-BR",
+                                                {
+                                                    style: "currency",
+                                                    currency: "BRL"
+                                                }
+                                            )}
+                                        </strong>
+
+                                        <p>
+                                            {String(
+                                                appointment.start_time
+                                            ).slice(0, 5)}
+                                            {" - "}
+                                            {String(
+                                                appointment.end_time
+                                            ).slice(0, 5)}
+                                        </p>
+                                    </div>
+
+                                    <div>
+                                        <strong>
+                                            {String(
+                                                appointment.appointment_date
+                                            ).slice(0, 10)}
+                                        </strong>
+                                    </div>
+
+                                    <div className={styles.filter}>
+                                        <select
+                                            value={appointment.status}
+                                            onChange={(event) =>
+                                                handleStatusChange(
+                                                    appointment.id,
+                                                    event.target.value
+                                                )
+                                            }
+                                        >
+                                            <option value="scheduled">
+                                                Na fila
+                                            </option>
+
+                                            <option value="confirmed">
+                                                Confirmado
+                                            </option>
+
+                                            <option value="cancelled">
+                                                Cancelado
+                                            </option>
+                                        </select>
+                                    </div>
+                                </section>
+                            );
+                        }
                     )}
                 </div>
             )}

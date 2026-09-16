@@ -1,4 +1,10 @@
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+import {
+    getPromotions,
+    type Promotion
+} from "../../services/api";
 
 import styles from "./PedidoRealizado.module.css";
 
@@ -25,13 +31,29 @@ function PedidoRealizado() {
     const location = useLocation();
     const navigate = useNavigate();
 
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
+
     const data =
         location.state as AppointmentData | null;
+
+    useEffect(() => {
+        async function loadPromotions() {
+            try {
+                const promotionsData =
+                    await getPromotions();
+
+                setPromotions(promotionsData);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        loadPromotions();
+    }, []);
 
     if (!data) {
         return (
             <main className={styles.container}>
-
                 <h1>
                     Nenhum pedido encontrado
                 </h1>
@@ -50,7 +72,6 @@ function PedidoRealizado() {
                 >
                     Fazer um agendamento
                 </button>
-
             </main>
         );
     }
@@ -58,9 +79,14 @@ function PedidoRealizado() {
     const formattedDate =
         new Date(
             `${data.selectedDate}T12:00:00`
-        ).toLocaleDateString(
-            "pt-BR"
+        ).toLocaleDateString("pt-BR");
+
+    function getPromotion(serviceId: number) {
+        return promotions.find(
+            (promotion) =>
+                promotion.service_id === serviceId
         );
+    }
 
     return (
         <main className={styles.container}>
@@ -73,9 +99,7 @@ function PedidoRealizado() {
                 com sucesso.
             </p>
 
-
             <div className={styles.infoCard}>
-
                 <div className={styles.customerInfo}>
                     <span>
                         Nome
@@ -85,7 +109,6 @@ function PedidoRealizado() {
                         {data.customerName}
                     </strong>
                 </div>
-
 
                 <div className={styles.customerInfo}>
                     <span>
@@ -97,7 +120,6 @@ function PedidoRealizado() {
                     </strong>
                 </div>
 
-
                 <div className={styles.customerInfo}>
                     <span>
                         Horário
@@ -108,22 +130,90 @@ function PedidoRealizado() {
                     </strong>
                 </div>
 
-
-                <div className={styles.customerInfo}>
+                <div className={styles.servicesInfo}>
                     <span>
                         Serviços
                     </span>
 
-                    <strong>
-                        {data.services
-                            .map(
-                                (service) =>
-                                    service.name
-                            )
-                            .join(", ")}
-                    </strong>
-                </div>
+                    <div className={styles.serviceList}>
+                        {data.services.map(
+                            (service) => {
+                                const promotion =
+                                    getPromotion(
+                                        service.id
+                                    );
 
+                                return (
+                                    <div
+                                        key={service.id}
+                                        className={
+                                            styles.serviceItem
+                                        }
+                                    >
+                                        <strong>
+                                            {service.name}
+                                        </strong>
+
+                                        {promotion ? (
+                                            <div
+                                                className={
+                                                    styles.servicePrices
+                                                }
+                                            >
+                                                <span
+                                                    className={
+                                                        styles.originalPrice
+                                                    }
+                                                >
+                                                    {Number(
+                                                        promotion.original_price
+                                                    ).toLocaleString(
+                                                        "pt-BR",
+                                                        {
+                                                            style: "currency",
+                                                            currency:
+                                                                "BRL"
+                                                        }
+                                                    )}
+                                                </span>
+
+                                                <strong
+                                                    className={
+                                                        styles.promotionalPrice
+                                                    }
+                                                >
+                                                    {Number(
+                                                        promotion.promotional_price
+                                                    ).toLocaleString(
+                                                        "pt-BR",
+                                                        {
+                                                            style: "currency",
+                                                            currency:
+                                                                "BRL"
+                                                        }
+                                                    )}
+                                                </strong>
+                                            </div>
+                                        ) : (
+                                            <span>
+                                                {Number(
+                                                    service.price
+                                                ).toLocaleString(
+                                                    "pt-BR",
+                                                    {
+                                                        style: "currency",
+                                                        currency:
+                                                            "BRL"
+                                                    }
+                                                )}
+                                            </span>
+                                        )}
+                                    </div>
+                                );
+                            }
+                        )}
+                    </div>
+                </div>
 
                 <div className={styles.customerInfo}>
                     <span>
@@ -135,27 +225,28 @@ function PedidoRealizado() {
                     </strong>
                 </div>
 
-
                 <div className={styles.customerInfo}>
                     <span>
                         Total
                     </span>
 
                     <strong>
-                        R${" "}
-                        {data.totalPrice.toFixed(
-                            2
+                        {data.totalPrice.toLocaleString(
+                            "pt-BR",
+                            {
+                                style: "currency",
+                                currency: "BRL"
+                            }
                         )}
                     </strong>
                 </div>
-
             </div>
 
-
             <p>
-               Retornaremos pelo WhatsApp para confirmar o agendamento e fornecer mais informações.
+                Retornaremos pelo WhatsApp para
+                confirmar o agendamento e fornecer
+                mais informações.
             </p>
-
 
             <button
                 type="button"

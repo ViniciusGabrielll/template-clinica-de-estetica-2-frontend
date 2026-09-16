@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import DatePicker from "react-datepicker";
@@ -6,9 +7,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import {
     getServices,
+    getPromotions,
     getAvailableTimes,
     createAppointment,
-    type Service
+    type Service,
+    type Promotion
 } from "../../services/api";
 
 import styles from "./Agendamento.module.css";
@@ -18,22 +21,9 @@ function Agendamento() {
     const [searchParams] = useSearchParams();
 
     const [services, setServices] = useState<Service[]>([]);
+    const [promotions, setPromotions] = useState<Promotion[]>([]);
     const [selectedServices, setSelectedServices] = useState<number[]>([]);
-    useEffect(() => {
-        const serviceId = searchParams.get("servico");
 
-        if (!serviceId) {
-            return;
-        }
-
-        const id = Number(serviceId);
-
-        if (!services.some((service) => service.id === id)) {
-            return;
-        }
-
-        setSelectedServices([id]);
-    }, [searchParams, services]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [validationError, setValidationError] = useState("");
@@ -54,9 +44,14 @@ function Agendamento() {
             try {
                 setLoading(true);
 
-                const data = await getServices();
+                const [servicesData, promotionsData] =
+                    await Promise.all([
+                        getServices(),
+                        getPromotions()
+                    ]);
 
-                setServices(data);
+                setServices(servicesData);
+                setPromotions(promotionsData);
             } catch (error) {
                 console.error(error);
 
@@ -70,6 +65,41 @@ function Agendamento() {
 
         loadServices();
     }, []);
+
+    useEffect(() => {
+        const serviceId = searchParams.get("servico");
+
+        if (!serviceId) {
+            return;
+        }
+
+        const id = Number(serviceId);
+
+        if (!services.some((service) => service.id === id)) {
+            return;
+        }
+
+        setSelectedServices([id]);
+    }, [searchParams, services]);
+
+    function getPromotion(serviceId: number) {
+        return promotions.find(
+            (promotion) =>
+                promotion.service_id === serviceId
+        );
+    }
+
+    function getServicePrice(service: Service) {
+        const promotion = getPromotion(service.id);
+
+        if (promotion) {
+            return Number(
+                promotion.promotional_price
+            );
+        }
+
+        return Number(service.price);
+    }
 
     function toggleService(serviceId: number) {
         setSelectedServices((prev) => {
@@ -208,7 +238,7 @@ function Agendamento() {
     const totalPrice =
         selectedServiceObjects.reduce(
             (total, service) =>
-                total + Number(service.price),
+                total + getServicePrice(service),
             0
         );
 
@@ -223,8 +253,9 @@ function Agendamento() {
     return (
         <main className={styles.container}>
             <div className={styles.cardsContainer}>
-
-                <div className={`${styles.service} ${styles.card}`}>
+                <div
+                    className={`${styles.service} ${styles.card}`}
+                >
                     <div className={styles.cardTitle}>
                         <span className={styles.cardCount}>
                             1
@@ -241,6 +272,9 @@ function Agendamento() {
                                 selectedServices.includes(
                                     service.id
                                 );
+
+                            const promotion =
+                                getPromotion(service.id);
 
                             return (
                                 <button
@@ -263,12 +297,60 @@ function Agendamento() {
                                         {service.name}
                                     </span>
 
-                                    <strong>
-                                        R${" "}
-                                        {Number(
-                                            service.price
-                                        ).toFixed(2)}
-                                    </strong>
+                                    {promotion ? (
+                                        <span
+                                            className={
+                                                styles.servicePrices
+                                            }
+                                        >
+                                            <span
+                                                className={
+                                                    styles.originalPrice
+                                                }
+                                            >
+                                                {Number(
+                                                    promotion.original_price
+                                                ).toLocaleString(
+                                                    "pt-BR",
+                                                    {
+                                                        style: "currency",
+                                                        currency:
+                                                            "BRL"
+                                                    }
+                                                )}
+                                            </span>
+
+                                            <strong
+                                                className={
+                                                    styles.promotionalPrice
+                                                }
+                                            >
+                                                {Number(
+                                                    promotion.promotional_price
+                                                ).toLocaleString(
+                                                    "pt-BR",
+                                                    {
+                                                        style: "currency",
+                                                        currency:
+                                                            "BRL"
+                                                    }
+                                                )}
+                                            </strong>
+                                        </span>
+                                    ) : (
+                                        <strong>
+                                            {Number(
+                                                service.price
+                                            ).toLocaleString(
+                                                "pt-BR",
+                                                {
+                                                    style: "currency",
+                                                    currency:
+                                                        "BRL"
+                                                }
+                                            )}
+                                        </strong>
+                                    )}
                                 </button>
                             );
                         })}
@@ -278,6 +360,24 @@ function Agendamento() {
                         Selecionados:{" "}
                         {selectedServices.length}
                     </p>
+
+                    {selectedServices.length > 0 && (
+                        <div className={styles.total}>
+                            <span>
+                                Total
+                            </span>
+
+                            <strong>
+                                {totalPrice.toLocaleString(
+                                    "pt-BR",
+                                    {
+                                        style: "currency",
+                                        currency: "BRL"
+                                    }
+                                )}
+                            </strong>
+                        </div>
+                    )}
                 </div>
 
                 <div
@@ -412,8 +512,16 @@ function Agendamento() {
                         </h2>
                     </div>
 
-                    <div className={styles.customerDataContent}>
-                        <div className={styles.customerInputs}>
+                    <div
+                        className={
+                            styles.customerDataContent
+                        }
+                    >
+                        <div
+                            className={
+                                styles.customerInputs
+                            }
+                        >
                             <input
                                 type="text"
                                 placeholder="Seu nome"
@@ -424,10 +532,16 @@ function Agendamento() {
                                     );
                                     setValidationError("");
                                 }}
-                                className={styles.customerInput}
+                                className={
+                                    styles.customerInput
+                                }
                             />
 
-                            <div className={styles.phoneInput}>
+                            <div
+                                className={
+                                    styles.phoneInput
+                                }
+                            >
                                 <span
                                     className={
                                         styles.phonePrefix
