@@ -29,30 +29,32 @@ function App() {
             </article>
 
             <article className={styles.feedbacks}>
-                <div className={styles.feedbacksImg} style={{ backgroundImage: `url(${data.feedbacksImg})` }}>
-                    <div className={styles.stars}>
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
-                        <FaStar />
+                <div className={styles.feedbacksImgContainer}>
+                    <div className={styles.feedbacksImg} style={{ backgroundImage: `url(${data.feedbacksImg})` }}>
+                        <div className={styles.stars}>
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                            <FaStar />
+                        </div>
                     </div>
-                    <div className={styles.feedbacksGrid}>
-                        {data.feedbacks.map((feedback) => (
-                            <div className={styles.feedbackCard}>
-                                <h3>{feedback.name}</h3>
-                                <p>{feedback.comment}</p>
-                                <a className={styles.feedbackLink} href={feedback.link} target="_blank" rel="noopener noreferrer" ><FiArrowUpRight /></a>
-                            </div>
-                        ))}
-                    </div>
+                </div>
+                <div className={styles.feedbacksGrid}>
+                    {data.feedbacks.map((feedback) => (
+                        <div className={styles.feedbackCard}>
+                            <h3>{feedback.name}</h3>
+                            <p>{feedback.comment}</p>
+                            <a className={styles.feedbackLink} href={feedback.link} target="_blank" rel="noopener noreferrer" ><FiArrowUpRight /></a>
+                        </div>
+                    ))}
                 </div>
             </article>
 
             <article className={styles.aboutUs} id="sobre">
                 <h3 className={styles.aboutUsLabel}>Sobre nós</h3>
                 <p>{data.textAboutUs}</p>
-                <a href="#contato" className="redirect">Localização <FiArrowUpRight /></a>
+                <a className="redirect" href={data.mapsLink} target="_blank" rel="noopener noreferrer">localização <FiArrowUpRight /></a>
             </article>
 
         </>

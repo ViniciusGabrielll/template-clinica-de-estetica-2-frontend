@@ -6,6 +6,8 @@
     --grey-color: #585858;
     --light-grey-color: #F2F2F2;
 
+    --header-height: 100px;
+
     --default-padding: 100px;
     --default-border-radius: 20px;
 }
@@ -47,10 +49,6 @@ body {
     font-style: normal;
 
     margin: 0;
-}
-
-article {
-    min-height: 100vh;
 }
 
 a {

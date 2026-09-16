@@ -9,7 +9,7 @@
     align-items: center;
     padding-left: var(--default-padding);
     padding-right: var(--default-padding);
-    height: var(--default-padding);
+    height: var(--header-height);
     align-items: center;
     background-color: var(--white-color);
 }
@@ -42,12 +42,100 @@
 .headerContact {
     display: flex;
     gap: 1rem;
+    height: 2rem;
 }
 
-.headerContact a{
+.headerContact a img{
     height: 2rem;
 }
 
 .markHeader {
     height: 2rem;
+}
+
+.menuButton {
+    display: none;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    color: var(--primary-text-color);
+    font-size: 1.8rem;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+
+    .headerContent {
+        gap: 0;
+    }
+
+    .nav {
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        padding: 1rem 1.25rem;
+        background-color: var(--white-color);
+        transform: translateX(-120%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.3s ease, visibility 0.3s ease;
+    }
+
+    .navOpen {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav a {
+        width: auto;
+        padding: 1rem;
+        border-left: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+        border-left: none;
+        color: var(--primary-text-color);
+    }
+
+    .nav a:last-child {
+        border-bottom: none;
+    }
+
+    .headerContact {
+        align-items: center;
+    }
+    
+
+    .menuButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .whatsAppHeader,
+    .instagramHeader {
+        height: 1.7rem;
+    }
+
+    .menuButton {
+        font-size: 1.7rem;
+    }
+
+    .markHeader {
+        height: 1.8rem;
+    }
 }

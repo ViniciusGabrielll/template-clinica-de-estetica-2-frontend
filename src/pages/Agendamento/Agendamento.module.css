@@ -1,5 +1,6 @@
 .container {
     padding: var(--default-padding);
+    padding-top: var(--header-height);
     height: 100vh;
 }
 
@@ -263,4 +264,17 @@
     background-color: #fff1f1;
     color: #c0392b;
     font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+
+    .container {
+        padding: var(--default-padding);
+        padding-top: var(--header-height);
+        height: 200vh;
+    }
+
+    .cardsContainer {
+        grid-template-columns: 1fr;
+    }
 }

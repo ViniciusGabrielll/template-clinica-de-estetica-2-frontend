@@ -1,6 +1,7 @@
 .services {
     min-height: 100vh;
     padding: var(--default-padding);
+    padding-top: var(--header-height);
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -136,4 +137,11 @@
     display: flex;
     gap: 0.5rem;
     margin-left: auto;
+}
+
+
+@media (max-width: 768px) {
+    .serviceList {
+        grid-template-columns: 1fr 1fr;
+    }
 }

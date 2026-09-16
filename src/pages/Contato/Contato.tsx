@@ -8,6 +8,7 @@ import maps from "../../assets/icons/maps.svg";
 import { data } from "../../data/data";
 import { useEffect, useState } from "react";
 import { getServices, type Service } from "../../services/api";
+import { FiArrowUpRight } from "react-icons/fi";
 export default function Contato() {
 
     const [name, setName] = useState("");
@@ -50,49 +51,12 @@ export default function Contato() {
 
     return (
         <main className={styles.contact} id="contato">
-            <section className={styles.iframeSection}>
-                <iframe className={styles.iframe} src={data.mapsLink} title="Localização da clínica no mapa" loading="lazy"></iframe>
-            </section>
             <section className={styles.contactSection}>
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <h3>ENVIE UMA MENSAGEM VIA WHATSAPP</h3>
+                <div className={styles.iframeContainer}>
+                    <iframe className={styles.iframe} src={data.mapsLink} title="Localização da clínica no mapa" loading="lazy"></iframe>
+                    <a className="redirect" href={data.mapsLink} target="_blank" rel="noopener noreferrer">localização <FiArrowUpRight /></a>
+                </div>
 
-                    <input
-                        type="text"
-                        placeholder="Nome Completo"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
-
-                    <select
-                        value={service}
-                        onChange={(e) => setService(e.target.value)}
-                        name="servico"
-                        id="servico"
-                        required
-                    >
-                        <option value="" disabled>
-                            Escolha um serviço
-                        </option>
-                        {services.map((s) => (
-                            <option key={s.name} value={s.name}>
-                                {s.name}
-                            </option>
-                        ))}
-                        <option key="outro" value="outro">
-                            Outro
-                        </option>
-                    </select>
-
-                    <textarea
-                        placeholder="Mensagem (opcional)"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                    ></textarea>
-
-                    <button type="submit">Enviar</button>
-                </form>
                 <div className={styles.contactContent}>
                     <a className={styles.contactCard} href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">
                         <img src={whatsapp} alt="Ícone do WhatsApp" />
