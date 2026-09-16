@@ -5,6 +5,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: var(--default-padding);
+    text-align: center;
     flex-direction: column;
     gap: 1rem;
 }

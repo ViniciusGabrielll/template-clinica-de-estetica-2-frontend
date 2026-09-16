@@ -24,12 +24,28 @@
 }
 
 .field input {
-    padding: 0.75rem;
+    height: 3rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: 2px solid var(--light-grey-color);
 }
 
 .form button {
-    padding: 0.75rem;
+    height: 3rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: var(--light-grey-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.form button:hover {
+    background-color: var(--primary-color);
+    color: var(--white-color);
 }
 
 .error {

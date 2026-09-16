@@ -108,7 +108,7 @@
         flex: 0 0 auto;
         padding: 0.75rem 1rem;
         border-left: none;
-        border-bottom: 2px solid var(--primary-text-color);
+        border-bottom: 2px solid var(--white-color);
         white-space: nowrap;
         text-align: center;
     }
@@ -116,7 +116,7 @@
     .sidebar button:hover,
     .sidebar button.active {
         border-left: none;
-        border-bottom: 2px solid var(--white-color);
+        border-bottom: 2px solid var(--primary-text-color);
     }
 
     .content {
