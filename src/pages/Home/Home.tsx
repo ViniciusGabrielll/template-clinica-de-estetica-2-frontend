@@ -39,6 +39,7 @@ export default function Home() {
 
     const treatmentsRef = useRef<HTMLDivElement>(null);
     const promotionsRef = useRef<HTMLDivElement>(null);
+    const articlesRef = useRef<HTMLElement[]>([]);
 
     useEffect(() => {
         async function loadData() {
@@ -60,6 +61,30 @@ export default function Home() {
 
         loadData();
     }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+        articlesRef.current.forEach((article) => {
+            if (article) {
+                observer.observe(article);
+            }
+        });
+
+        return () => observer.disconnect();
+    }, [promotions]);
 
     function getPromotion(serviceId: number) {
         return promotions.find(
@@ -217,14 +242,24 @@ export default function Home() {
     return (
         <>
             <article
-                className={styles.hero}
+                className={`${styles.hero} reveal`}
                 id="inicio"
+                ref={(element) => {
+                    if (element) {
+                        articlesRef.current[0] = element;
+                    }
+                }}
             >
-                <div
-                    className={styles.heroDiv}
-                >
-                    <h1 className={styles.heroTitle}>{data.name}</h1>
-                    <img src={modelo} className={styles.heroImg} />
+                <div className={styles.heroDiv}>
+                    <h1 className={styles.heroTitle}>
+                        {data.name}
+                    </h1>
+
+                    <img
+                        src={modelo}
+                        className={styles.heroImg}
+                    />
+
                     <Link
                         to="agendamento"
                         className="btn"
@@ -243,55 +278,56 @@ export default function Home() {
 
             {promotions.length > 0 && (
                 <article
-                    className={styles.treatments}
-                >
-                    <div
-                        className={
-                            styles.treatmentsHeader
+                    className={`${styles.treatments} reveal`}
+                    ref={(element) => {
+                        if (element) {
+                            articlesRef.current[1] = element;
                         }
-                    >
+                    }}
+                >
+                    <div className={styles.treatmentsHeader}>
                         <h2>
                             Tratamentos em promoção
                         </h2>
 
                         {(canPromotionScrollLeft ||
                             canPromotionScrollRight) && (
-                                <div
-                                    className={
-                                        styles.treatmentsButtons
+                            <div
+                                className={
+                                    styles.treatmentsButtons
+                                }
+                            >
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        scrollPromotions(
+                                            "left"
+                                        )
                                     }
+                                    disabled={
+                                        !canPromotionScrollLeft
+                                    }
+                                    aria-label="Promoção anterior"
                                 >
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            scrollPromotions(
-                                                "left"
-                                            )
-                                        }
-                                        disabled={
-                                            !canPromotionScrollLeft
-                                        }
-                                        aria-label="Promoção anterior"
-                                    >
-                                        <FiArrowLeft />
-                                    </button>
+                                    <FiArrowLeft />
+                                </button>
 
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            scrollPromotions(
-                                                "right"
-                                            )
-                                        }
-                                        disabled={
-                                            !canPromotionScrollRight
-                                        }
-                                        aria-label="Próxima promoção"
-                                    >
-                                        <FiArrowRight />
-                                    </button>
-                                </div>
-                            )}
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        scrollPromotions(
+                                            "right"
+                                        )
+                                    }
+                                    disabled={
+                                        !canPromotionScrollRight
+                                    }
+                                    aria-label="Próxima promoção"
+                                >
+                                    <FiArrowRight />
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div
@@ -347,8 +383,7 @@ export default function Home() {
                                                     "pt-BR",
                                                     {
                                                         style: "currency",
-                                                        currency:
-                                                            "BRL"
+                                                        currency: "BRL"
                                                     }
                                                 )}
                                             </span>
@@ -364,8 +399,7 @@ export default function Home() {
                                                     "pt-BR",
                                                     {
                                                         style: "currency",
-                                                        currency:
-                                                            "BRL"
+                                                        currency: "BRL"
                                                     }
                                                 )}
                                             </span>
@@ -386,8 +420,15 @@ export default function Home() {
             )}
 
             <article
-                className={styles.treatments}
+                className={`${styles.treatments} reveal`}
                 id="tratamentos"
+                ref={(element) => {
+                    if (element) {
+                        articlesRef.current[
+                            promotions.length > 0 ? 2 : 1
+                        ] = element;
+                    }
+                }}
             >
                 <div className={styles.treatmentsHeader}>
                     <h2>
@@ -396,42 +437,42 @@ export default function Home() {
 
                     {(canScrollLeft ||
                         canScrollRight) && (
-                            <div
-                                className={
-                                    styles.treatmentsButtons
+                        <div
+                            className={
+                                styles.treatmentsButtons
+                            }
+                        >
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    scrollTreatments(
+                                        "left"
+                                    )
                                 }
+                                disabled={
+                                    !canScrollLeft
+                                }
+                                aria-label="Tratamento anterior"
                             >
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        scrollTreatments(
-                                            "left"
-                                        )
-                                    }
-                                    disabled={
-                                        !canScrollLeft
-                                    }
-                                    aria-label="Tratamento anterior"
-                                >
-                                    <FiArrowLeft />
-                                </button>
+                                <FiArrowLeft />
+                            </button>
 
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        scrollTreatments(
-                                            "right"
-                                        )
-                                    }
-                                    disabled={
-                                        !canScrollRight
-                                    }
-                                    aria-label="Próximo tratamento"
-                                >
-                                    <FiArrowRight />
-                                </button>
-                            </div>
-                        )}
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    scrollTreatments(
+                                        "right"
+                                    )
+                                }
+                                disabled={
+                                    !canScrollRight
+                                }
+                                aria-label="Próximo tratamento"
+                            >
+                                <FiArrowRight />
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 <div
@@ -495,8 +536,7 @@ export default function Home() {
                                                     "pt-BR",
                                                     {
                                                         style: "currency",
-                                                        currency:
-                                                            "BRL"
+                                                        currency: "BRL"
                                                     }
                                                 )}
                                             </span>
@@ -512,8 +552,7 @@ export default function Home() {
                                                     "pt-BR",
                                                     {
                                                         style: "currency",
-                                                        currency:
-                                                            "BRL"
+                                                        currency: "BRL"
                                                     }
                                                 )}
                                             </span>
@@ -538,8 +577,7 @@ export default function Home() {
                                                     "pt-BR",
                                                     {
                                                         style: "currency",
-                                                        currency:
-                                                            "BRL"
+                                                        currency: "BRL"
                                                     }
                                                 )}
                                             </span>
@@ -559,7 +597,16 @@ export default function Home() {
                 </Link>
             </article>
 
-            <article className={styles.feedbacks}>
+            <article
+                className={`${styles.feedbacks} reveal`}
+                ref={(element) => {
+                    if (element) {
+                        articlesRef.current[
+                            promotions.length > 0 ? 3 : 2
+                        ] = element;
+                    }
+                }}
+            >
                 <div
                     className={
                         styles.feedbacksImgContainer
@@ -571,9 +618,7 @@ export default function Home() {
                             backgroundImage: `url(${data.feedbacksImg})`
                         }}
                     >
-                        <div
-                            className={styles.stars}
-                        >
+                        <div className={styles.stars}>
                             <FaStar />
                             <FaStar />
                             <FaStar />
@@ -583,9 +628,7 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div
-                    className={styles.feedbacksGrid}
-                >
+                <div className={styles.feedbacksGrid}>
                     {data.feedbacks.map(
                         (feedback) => (
                             <div
@@ -623,8 +666,15 @@ export default function Home() {
             </article>
 
             <article
-                className={styles.aboutUs}
+                className={`${styles.aboutUs} reveal`}
                 id="sobre"
+                ref={(element) => {
+                    if (element) {
+                        articlesRef.current[
+                            promotions.length > 0 ? 4 : 3
+                        ] = element;
+                    }
+                }}
             >
                 <h3
                     className={

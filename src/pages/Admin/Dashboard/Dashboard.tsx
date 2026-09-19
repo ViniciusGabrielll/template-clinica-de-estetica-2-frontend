@@ -194,22 +194,6 @@ function Dashboard() {
 
                 </div>
 
-                <div className={styles.card}>
-
-                    <span>
-                        Cancelados
-                    </span>
-
-                    <strong>
-                        {cancelled}
-                    </strong>
-
-                    <p>
-                        agendamentos
-                    </p>
-
-                </div>
-
             </div>
 
             <div className={styles.upcoming}>

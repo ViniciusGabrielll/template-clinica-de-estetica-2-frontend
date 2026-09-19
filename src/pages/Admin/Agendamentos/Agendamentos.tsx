@@ -16,6 +16,11 @@ type StatusFilter =
     | "confirmed"
     | "cancelled";
 
+type AppointmentStatus =
+    | "scheduled"
+    | "confirmed"
+    | "cancelled";
+
 function Agendamentos() {
     const [appointments, setAppointments] =
         useState<Appointment[]>([]);
@@ -37,10 +42,21 @@ function Agendamentos() {
 
     async function handleStatusChange(
         id: number,
-        status: string
+        status: AppointmentStatus
     ) {
         try {
             await updateAppointmentStatus(id, status);
+
+            if (status === "cancelled") {
+                setAppointments((currentAppointments) =>
+                    currentAppointments.filter(
+                        (appointment) =>
+                            appointment.id !== id
+                    )
+                );
+
+                return;
+            }
 
             setAppointments((currentAppointments) =>
                 currentAppointments.map((appointment) =>
@@ -289,10 +305,6 @@ function Agendamentos() {
                         <option value="confirmed">
                             Confirmados
                         </option>
-
-                        <option value="cancelled">
-                            Cancelados
-                        </option>
                     </select>
                 </div>
             </div>
@@ -404,7 +416,7 @@ function Agendamentos() {
                                             onChange={(event) =>
                                                 handleStatusChange(
                                                     appointment.id,
-                                                    event.target.value
+                                                    event.target.value as AppointmentStatus
                                                 )
                                             }
                                         >

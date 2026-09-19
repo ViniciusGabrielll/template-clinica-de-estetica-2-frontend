@@ -21,10 +21,10 @@
 
 .heroTitle {
     position: absolute;
-    top: 2rem;
+    top: 0rem;
     left: 1rem;
     right: 1rem;
-    font-size: 28vw;
+    font-size: 18vw;
     color: var(--primary-color);
 }
 
@@ -89,11 +89,11 @@
 }
 
 .treatmentsGrid {
-    width: 100%;
+    width: calc(100% + var(--default-padding));
     height: 50vh;
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: calc((100% - 2rem) / 3);
+    grid-auto-columns: calc((100% - 3rem) / 3.4);
     gap: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
@@ -277,8 +277,13 @@
     }
 
     .treatmentsGrid {
-        grid-auto-columns: calc((100% - 1rem) / 2);
+        grid-auto-columns: calc((100% - 2rem) / 2.4);
     }
+
+    .heroTitle {
+        top: 2rem;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -296,9 +301,8 @@
         height: 2.5rem;
     }
 
-    .feedbacksGrid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+    .treatmentsGrid {
+        grid-auto-columns: calc((100% - 2rem) / 2.4);
     }
 
     .feedbackCard {

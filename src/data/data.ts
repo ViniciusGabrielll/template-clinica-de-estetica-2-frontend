@@ -1,54 +1,54 @@
 import mark from "../../public/mark.svg";
 import feedbacksImg from "../assets/images/feedbacksImg.webp";
 export const data = {
-    name: "Lindha",
-    city: "Curado",
+    name: "Luiza Fink",
+    city: "Sapucaia do Sul",
     location:
-        "R. Boa Vontade, 44 - B - Curado IV, Jaboatão dos Guararapes - PE, 54270-470",
+        "R. Cap. Camboim, 32 - 11º andar, sala 1101 - Centro, Sapucaia do Sul - RS, 93220-070",
 
     mapsLink:
-        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3950.2720937737968!2d-34.99315509999999!3d-8.073706699999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7ab1dbeaee16c3b%3A0x9a459ccf3cdf62a3!2sCl%C3%ADnica%20Intersense%20Est%C3%A9tica%20e%20Sa%C3%BAde%20Integrativa!5e0!3m2!1spt-BR!2sbr!4v1787945462523!5m2!1spt-BR!2sbr",
+        "https://maps.app.goo.gl/MSxPRGMbpx4VDcFT7",
 
-    number: "+55 (81) 99533-7070",
+    mapsIframe:
+        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5643.267873169623!2d-51.15079601689198!3d-29.82264315317318!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95196f7d06d7791d%3A0x73768f4113daa7fc!2scl%C3%ADnica%20est%C3%A9tica%20Luiza%20Fink%20-%20harmoniza%C3%A7%C3%A3o%20facial%20%7C%20botox%20%7C%20preenchimento%20labial%20%7C%20bioestimulador%20de%20col%C3%A1geno%20%7C%20fios%20de%20PDO!5e0!3m2!1spt-BR!2sbr!4v1789840182856!5m2!1spt-BR!2sbr",
+
+    number: "+55 (51) 99809-1293",
 
     whatsAppLink:
-        "https://api.whatsapp.com/send/?phone=5581995337070",
+        "https://api.whatsapp.com/send/?phone=5551998091293",
 
-    instagram: "clinicaintersense",
+    instagram: "clinicaluizafink",
 
     instagramLink:
-        "https://www.instagram.com/clinicaintersense/",
+        "https://www.instagram.com/clinicaluizafink/",
 
     businessHours:
-        "08:00 às 18:00",
+        "09:00 às 21:00",
 
     textAboutUs:
-        "A Intersense é uma clínica de estética e saúde integrativa localizada no Curado IV - Jaboatão dos Guararapes. O espaço oferece cuidados voltados à estética e ao bem-estar, buscando proporcionar um atendimento individualizado e acolhedor para seus pacientes.",
+        "A Clínica Estética Luiza Fink atua em Sapucaia do Sul com foco em procedimentos de harmonização facial e cuidados estéticos. O atendimento é realizado de forma individualizada, com procedimentos como botox, preenchimento labial, bioestimuladores de colágeno e fios de PDO.",
 
     mark: mark,
     feedbacksImg: feedbacksImg,
 
     feedbacks: [
         {
-            name: "Marcos Junior",
-            stars: "5",
+            name: "Samanta Correa",
             comment:
-                "O Curado estava precisa do de uma Clínica de alto nível, uma localização adequada e fácil de encontrar.",
-            link: "https://maps.app.goo.gl/PKPU6AxuFRCzgTpF8"
+                "Dr Luiza é maravilhosa, fiz limpeza de pele com ela e preenchimento labial e em ambos ela foi perfeita.",
+            link: "https://maps.app.goo.gl/eEMhTQWYJ7GMrdYC8"
         },
         {
-            name: "Jakeline Rodrigues",
-            stars: "5",
+            name: "Lisi Moraes",
             comment:
-                "Essa clínica é top, com excelentes profissionais! Já fui fazer procedimentos lá e simplismente amei! Super recomendo!",
-            link: "https://maps.app.goo.gl/dpZMThCYFy5L5oCP6"
+                "A Luiza é antes de mais nada, uma querida! Amei o atendimento, o  consultório amplo e aconchegante.",
+            link: "https://maps.app.goo.gl/zNV654FZu6k3nuUw7"
         },
         {
-            name: "Shirley Souza",
-            stars: "5",
+            name: "Jordana Rith",
             comment:
-                "Excelente, ótimos procedimentos e atendimento.",
-            link: "https://maps.app.goo.gl/dfVKC9zBwFi5duu39"
+                "Fui muito bem atendida, com um cuidado e atenção excepcionais em cada detalhe. A profissional é extremamente atenciosa.",
+            link: "https://maps.app.goo.gl/hpfDMJMihfZEYxi48"
         }
     ]
 };

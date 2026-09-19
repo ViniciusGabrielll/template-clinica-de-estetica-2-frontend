@@ -25,7 +25,7 @@ export default function Footer() {
                     <a href={data.whatsAppLink} target="_blank" rel="noopener noreferrer">{data.number}</a>
                     <a href={data.instagramLink} target="_blank" rel="noopener noreferrer">@{data.instagram}</a>
                 </div>
-                <iframe className={styles.iframe} src={data.mapsLink} title="Localização da clínica no mapa" loading="lazy"></iframe>
+                <iframe className={styles.iframe} src={data.mapsIframe} title="Localização da clínica no mapa" loading="lazy"></iframe>
             </div>
             <div className={styles.copywriting}>
                 <img src={data.mark} alt="Logo" />

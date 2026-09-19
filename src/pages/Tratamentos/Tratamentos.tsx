@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     getServices,
     getPromotions,
@@ -30,6 +30,8 @@ export default function Tratamentos() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const serviceCardsRef = useRef<HTMLElement[]>([]);
+
     useEffect(() => {
         async function loadServices() {
             try {
@@ -56,6 +58,30 @@ export default function Tratamentos() {
 
         loadServices();
     }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+        serviceCardsRef.current.forEach((card) => {
+            if (card) {
+                observer.observe(card);
+            }
+        });
+
+        return () => observer.disconnect();
+    }, [services, activeMinPrice, activeMaxPrice, activeSortPrice, activePromotionFilter, search]);
 
     function handleFilter() {
         setActiveMinPrice(minPrice);
@@ -295,7 +321,7 @@ export default function Tratamentos() {
 
             <div className={styles.serviceList}>
                 {filteredServices.length > 0 ? (
-                    filteredServices.map((service) => {
+                    filteredServices.map((service, index) => {
                         const promotion = getPromotion(
                             service.id
                         );
@@ -303,10 +329,16 @@ export default function Tratamentos() {
                         return (
                             <Link
                                 to={`/agendamento?servico=${service.id}`}
-                                className={styles.serviceCard}
+                                className={`${styles.serviceCard} reveal`}
                                 key={service.id}
+                                ref={(element) => {
+                                    if (element) {
+                                        serviceCardsRef.current[index] = element;
+                                    }
+                                }}
                                 style={{
-                                    backgroundImage: `url(${service.image_url})`
+                                    backgroundImage: `url(${service.image_url})`,
+                                    transitionDelay: `${index * 0.08}s`
                                 }}
                             >
                                 <h3>

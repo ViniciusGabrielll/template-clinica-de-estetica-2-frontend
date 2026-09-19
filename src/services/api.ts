@@ -642,7 +642,7 @@ export async function getAppointments(): Promise<Appointment[]> {
 
 export async function updateAppointmentStatus(
     id: number,
-    status: string
+    status: "scheduled" | "confirmed" | "cancelled"
 ) {
     const token = localStorage.getItem("token");
 
