@@ -7,6 +7,7 @@ import {
 } from "../../../services/api";
 
 import styles from "./Agendamentos.module.css";
+import { FiArrowUpRight } from "react-icons/fi";
 
 type DateFilter = "all" | "specific";
 
@@ -62,9 +63,9 @@ function Agendamentos() {
                 currentAppointments.map((appointment) =>
                     appointment.id === id
                         ? {
-                              ...appointment,
-                              status
-                          }
+                            ...appointment,
+                            status
+                        }
                         : appointment
                 )
             );
@@ -332,6 +333,20 @@ function Agendamentos() {
                                 originalPrice > totalPrice &&
                                 totalPrice > 0;
 
+                            const whatsappPhone = String(
+                                appointment.customer_phone
+                            ).replace(/\D/g, "");
+
+                            const whatsappMessage = encodeURIComponent(
+                                `Olá, ${appointment.customer_name}! Seu agendamento para ${appointment.service_name} no dia ${String(
+                                    appointment.appointment_date
+                                ).slice(0, 10)} às ${String(
+                                    appointment.start_time
+                                ).slice(0, 5)} está confirmado.`
+                            );
+
+                            const whatsappUrl = `https://wa.me/55${whatsappPhone}?text=${whatsappMessage}`;
+
                             return (
                                 <section
                                     key={appointment.id}
@@ -410,29 +425,43 @@ function Agendamentos() {
                                         </strong>
                                     </div>
 
-                                    <div className={styles.filter}>
-                                        <select
-                                            value={appointment.status}
-                                            onChange={(event) =>
-                                                handleStatusChange(
-                                                    appointment.id,
-                                                    event.target.value as AppointmentStatus
-                                                )
-                                            }
+                                    <div className={styles.confirmContainer}>
+                                        <a
+                                            href={whatsappUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="redirect"
                                         >
-                                            <option value="scheduled">
-                                                Na fila
-                                            </option>
+                                            
+                                            Confirmar pelo WhatsApp
+                                            <FiArrowUpRight/>
+                                        </a>
 
-                                            <option value="confirmed">
-                                                Confirmado
-                                            </option>
+                                        <div className={styles.filter}>
+                                            <select
+                                                value={appointment.status}
+                                                onChange={(event) =>
+                                                    handleStatusChange(
+                                                        appointment.id,
+                                                        event.target.value as AppointmentStatus
+                                                    )
+                                                }
+                                            >
+                                                <option value="scheduled">
+                                                    Na fila
+                                                </option>
 
-                                            <option value="cancelled">
-                                                Cancelado
-                                            </option>
-                                        </select>
+                                                <option value="confirmed">
+                                                    Confirmado
+                                                </option>
+
+                                                <option value="cancelled">
+                                                    Cancelado
+                                                </option>
+                                            </select>
+                                        </div>
                                     </div>
+
                                 </section>
                             );
                         }

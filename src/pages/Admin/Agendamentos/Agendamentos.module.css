@@ -18,8 +18,15 @@
     border-radius: var(--default-border-radius);
 }
 
+
 .card p {
     margin: 0.5rem 0 0;
+}
+
+.confirmContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .filters {
