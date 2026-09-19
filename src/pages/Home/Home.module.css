@@ -5,17 +5,38 @@
     display: flex;
 }
 
-.heroImg {
+.heroDiv {
+    position: relative;
     width: 100%;
+    overflow: hidden;
     height: 100%;
-    background-size: cover;
-    background-position: center;
     display: flex;
+    background-color: var(--light-primary-color);
     justify-content: start;
     align-items: end;
     padding: 2rem;
     border-radius: var(--default-border-radius);
     gap: 1rem;
+}
+
+.heroTitle {
+    position: absolute;
+    top: 2rem;
+    left: 1rem;
+    right: 1rem;
+    font-size: 28vw;
+    color: var(--primary-color);
+}
+
+.heroDiv a {
+    z-index: 1;
+}
+
+.heroImg {
+    height: 90%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
 }
 
 .treatments {
@@ -247,6 +268,14 @@
 }
 
 @media (max-width: 1024px) {
+
+    .heroImg {
+        height: 70%;
+        position: absolute;
+        bottom: 0;
+        left: -30%;
+    }
+
     .treatmentsGrid {
         grid-auto-columns: calc((100% - 1rem) / 2);
     }

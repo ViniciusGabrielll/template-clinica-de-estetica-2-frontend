@@ -18,6 +18,8 @@ import {
     type Promotion
 } from "../../services/api";
 
+import modelo from "../../assets/images/modelo.webp";
+
 export default function Home() {
     const [featuredServices, setFeaturedServices] = useState<Service[]>([]);
     const [promotions, setPromotions] = useState<Promotion[]>([]);
@@ -219,11 +221,10 @@ export default function Home() {
                 id="inicio"
             >
                 <div
-                    className={styles.heroImg}
-                    style={{
-                        backgroundImage: `url(${data.heroImg})`
-                    }}
+                    className={styles.heroDiv}
                 >
+                    <h1 className={styles.heroTitle}>{data.name}</h1>
+                    <img src={modelo} className={styles.heroImg} />
                     <Link
                         to="agendamento"
                         className="btn"

@@ -1,7 +1,5 @@
 import mark from "../../public/mark.svg";
 import feedbacksImg from "../assets/images/feedbacksImg.webp";
-import heroImg from "../assets/images/heroImg.webp";
-
 export const data = {
     name: "Lindha",
     city: "Curado",
@@ -28,7 +26,6 @@ export const data = {
         "A Intersense é uma clínica de estética e saúde integrativa localizada no Curado IV - Jaboatão dos Guararapes. O espaço oferece cuidados voltados à estética e ao bem-estar, buscando proporcionar um atendimento individualizado e acolhedor para seus pacientes.",
 
     mark: mark,
-    heroImg: heroImg,
     feedbacksImg: feedbacksImg,
 
     feedbacks: [
